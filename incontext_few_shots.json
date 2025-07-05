@@ -1,0 +1,802 @@
+{
+    "healthcare": {
+        "Simple_Retrieval": [
+            {
+                "NL Question": "Retrieve the names and primary substances of all drugs available in the database.",
+                "Cypher Query": "MATCH (d:Drug) RETURN d.name AS drugName, d.primarySubstabce AS primarySubstance;"
+            },
+            {
+                "NL Question": "Retrieve the ID, report date, and reporter occupation of all cases that were reported on \"2021-08-25.\"",
+                "Cypher Query": "MATCH (c:Case) WHERE date(c.reportDate) = date(\"2021-08-25\") RETURN c.id AS caseID, date(c.reportDate) AS reportDate, c.reporterOccupation AS reporterOccupation;"
+            },
+            {
+                "NL Question": "Retrieve the ID, age, and gender of all cases that fall under the age group \"Adult.\"",
+                "Cypher Query": "MATCH (c:Case)-[:FALLS_UNDER]->(a:AgeGroup) WHERE a.ageGroup = \"Adult\" RETURN c.id AS caseID, c.age AS age, c.gender AS gender;"
+            },
+            {
+                "NL Question": "Retrieve the ID, report date, and reporter occupation of all cases that were reported by a \"Physician.\"",
+                "Cypher Query": "MATCH (c:Case) WHERE c.reporterOccupation = \"Physician\" RETURN c.id AS id, date(c.reportDate) AS reportDate, c.reporterOccupation AS reporterOccupation;"
+            },
+            {
+                "NL Question": "Retrieve the drug names and their primary substances for all drugs where the primary substance is \"LISINOPRIL.\"",
+                "Cypher Query": "MATCH (d:Drug) WHERE d.primarySubstabce = \"LISINOPRIL\" RETURN d.name AS drugName, d.primarySubstabce AS primarySubstance;"
+            }
+        ],
+        "Simple_Aggregation": [
+            {
+                "NL Question": "Count the total number of cases that were reported by \"Health Professionals.\"",
+                "Cypher Query": "MATCH (c:Case)-[:REPORTED_BY]->(r:ReportSource {name: \"Health Professional\"}) RETURN COUNT(c) AS caseCount;"
+            },
+            {
+                "NL Question": "Calculate the average age of patients across all cases?",
+                "Cypher Query": "MATCH (c:Case) RETURN AVG(c.age) AS averageAge;"
+            },
+            {
+                "NL Question": "Find the minimum age of individuals in cases that resulted in the outcome \"Disability.\"",
+                "Cypher Query": "MATCH (c:Case)-[:RESULTED_IN]->(o:Outcome {outcome: \"Disability\"}) RETURN MIN(c.age) AS minAge;"
+            },
+            {
+                "NL Question": "Count the number of cases reported by \"Foreign\" sources in the year 2021.",
+                "Cypher Query": "MATCH (c:Case)-[:REPORTED_BY]->(r:ReportSource {name: \"Foreign\"}) WHERE c.reportDate.year = 2021 RETURN COUNT(c) AS caseCount;"
+            },
+            {
+                "NL Question": "How many cases had the outcome \"Hospitalization - Initial or Prolonged\" for patients aged 60 or above?",
+                "Cypher Query": "MATCH (c:Case)-[:RESULTED_IN]->(o:Outcome {outcome: \"Hospitalization - Initial or Prolonged\"}) WHERE c.age >= 60 RETURN COUNT(c) AS caseCount;"
+            },
+            {
+                "NL Question": "Identify the most frequently used route of administration for drugs classified as primary suspects, along with the number of cases associated with that route.",
+                "Cypher Query": "MATCH (c:Case)-[rel:IS_PRIMARY_SUSPECT]->(d:Drug) RETURN rel.route, COUNT(rel.route) AS routeCount ORDER BY routeCount DESC LIMIT 1;"
+            },
+            {
+                "NL Question": "How many Drugs have names starting with letter \"C\"?",
+                "Cypher Query": "MATCH (d:Drug) WHERE d.name STARTS WITH \"C\" RETURN COUNT(d) AS drugCount;"
+            },
+            {
+                "NL Question": "Count the total number of cases that were reported in the month of July across all available years.",
+                "Cypher Query": "MATCH (c:Case) WHERE c.reportDate.month = 7 RETURN COUNT(c) AS caseCount;"
+            },
+            {
+                "NL Question": "How many cases with \"female\" gender were registered with the \"Adolescent\" age group?",
+                "Cypher Query": "MATCH (c:Case)-[:FALLS_UNDER]->(a:AgeGroup {ageGroup: \"Adolescent\"}) WHERE c.gender = \"F\" RETURN COUNT(c) AS caseCount;"
+            },
+            {
+                "NL Question": "Which month in the year \"2021\" had the highest number of cases?",
+                "Cypher Query": "MATCH (c:Case) WHERE c.reportDate.year = 2021 RETURN c.reportDate.month AS month, COUNT(c) AS caseCount ORDER BY caseCount DESC LIMIT 1;"
+            }
+        ],
+        "Complex_Retrieval": [
+            {
+                "NL Question": "Identify cases where a drug with the primary substance \"ACETAMINOPHEN\" is both \"Primary Suspect\" and \"Secondary Suspect\", and create a relationship to mark them as \"High Risk.\"",
+                "Cypher Query": "MATCH (d:Drug {primarySubstabce: \"DOCETAXEL\"})<-[:IS_PRIMARY_SUSPECT]-(c:Case), (d)<-[:IS_SECONDARY_SUSPECT]-(c) MERGE (c)-[:HIGH_RISK]->(d) RETURN c.id AS caseId, d.name AS drugName;"
+            },
+            {
+                "NL Question": "Retrieve all distinct cases where a drug is associated with either \"Primary Suspect\" or \"Secondary Suspect,\" and check if the drug is prescribed in therapy for that case. Return the ID of the case and drug name.",
+                "Cypher Query": "MATCH (c:Case)-[:IS_PRIMARY_SUSPECT|IS_SECONDARY_SUSPECT]->(d:Drug) WITH c, d MATCH (c)-[:RECEIVED]->(t:Therapy)-[:PRESCRIBED]->(d) RETURN DISTINCT c.id AS caseId, d.name AS drugName;"
+            },
+            {
+                "NL Question": "Retrieve all distinct cases reported by either a \"Health Professional\" or \"Physician\" where the case contains a reaction of \"Pain.\" Return the ID, reporter, and reaction description of the cases.",
+                "Cypher Query": "MATCH (c:Case)-[:REPORTED_BY]->(r:ReportSource) WHERE r.name IN [\"Health Professional\", \"Company Representative\"] MATCH (c)-[:HAS_REACTION]->(reaction:Reaction {description: \"Pain\"}) RETURN DISTINCT c.id AS caseId, r.name AS reporter, reaction.description AS reaction;"
+            },
+            {
+                "NL Question": "Retrieve all distinct cases where the reaction is \"Nausea,\" but the age group of the case is neither \"Adult\" nor \"Infant.\" Return the ID and age group of the cases.",
+                "Cypher Query": "MATCH (c:Case)-[:HAS_REACTION]->(r:Reaction {description: \"Nausea\"}) MATCH (c)-[:FALLS_UNDER]->(a:AgeGroup) WHERE a.ageGroup <> \"Adult\" AND a.ageGroup <> \"Infant\" RETURN DISTINCT c.id AS caseId, a.ageGroup AS ageGroup;"
+            },
+            {
+                "NL Question": "Retrieve all distinct cases where a drug is associated with both \"Primary Suspect\" and \"Concomitant\" roles in the same case. Return the case IDs and drug names.",
+                "Cypher Query": "MATCH (c:Case)-[:IS_PRIMARY_SUSPECT]->(d:Drug), (c)-[:IS_CONCOMITANT]->(d) RETURN DISTINCT c.id AS caseId, d.name AS drugName;"
+            },
+            {
+                "NL Question": "Retrieve all distinct cases where 'Diarrhoea' is reported as a reaction. For each of these cases, list the drugs associated (as a primary suspect, secondary suspect, concomitant, or interacting) that have an \"Oral\" route of administration. Return the case IDs and drug names.",
+                "Cypher Query": "MATCH (c:Case)-[:HAS_REACTION]->(reaction:Reaction) WHERE reaction.description = 'Diarrhoea' WITH c MATCH (c)-[rel:IS_PRIMARY_SUSPECT|IS_SECONDARY_SUSPECT|IS_CONCOMITANT|IS_INTERACTING]->(d:Drug) WHERE rel.route = 'Oral' RETURN DISTINCT c.id AS caseId, d.name AS drugName;"
+            },
+            {
+                "NL Question": "Retrieve all cases that resulted in 'Hospitalization - Initial or Prolonged' and the drugs associated with these cases where the route of administration is 'Respiratory (inhalation).' Display the case IDs and drug names.",
+                "Cypher Query": "MATCH (c:Case)-[:RESULTED_IN]->(o:Outcome {outcome: \"Hospitalization - Initial or Prolonged\"}), (c)-[rel:IS_PRIMARY_SUSPECT|IS_SECONDARY_SUSPECT|IS_CONCOMITANT|IS_INTERACTING]->(d:Drug) WHERE rel.route = \"Respiratory (inhalation)\" RETURN c.id AS caseID, d.name AS drugName;"
+            },
+            {
+                "NL Question": "Retrieve all distinct cases where therapy prescribed a drug starting in 2020, and check if these cases fall under the 'Infant' age group. Return the case IDs, drug names, and age group.",
+                "Cypher Query": "MATCH (c:Case)-[r:RECEIVED]->(t:Therapy)-[p:PRESCRIBED]->(d:Drug) WHERE p.startYear = 2020 WITH c, d MATCH (c)-[:FALLS_UNDER]->(a:AgeGroup {ageGroup: \"Infant\"}) RETURN DISTINCT c.id AS caseId, d.name AS drugName, a.ageGroup AS ageGroup;"
+            },
+            {
+                "NL Question": "Retrieve all distinct cases registered by manufacturers where the age group is either 'Elderly' or 'Child.' Return the case IDs, manufacturer names, and age groups.",
+                "Cypher Query": "MATCH (c:Case)-[:FALLS_UNDER]->(a:AgeGroup), (m:Manufacturer)-[:REGISTERED]->(c) WHERE a.ageGroup IN [\"Elderly\", \"Child\"] RETURN DISTINCT c.id AS caseId, m.manufacturerName AS manufacturerName, a.ageGroup AS ageGroup;"
+            },
+            {
+                "NL Question": "Retrieve all distinct cases where the outcome is 'Life-Threatening' and the case was reported by any source other than 'Consumer.' Return the case IDs, reporter source names, and outcome.",
+                "Cypher Query": "MATCH (c:Case)-[:REPORTED_BY]->(r:ReportSource), (c)-[:RESULTED_IN]->(o:Outcome {outcome: \"Life-Threatening\"}) WHERE r.name <> \"Consumer\" RETURN DISTINCT c.id AS caseId, r.name AS reporterSource, o.outcome AS outcomeDetails;"
+            }
+        ],
+        "Complex_Aggregation": [
+            {
+                "NL Question": "Find the total number of cases involving the reaction \"Nausea,\" and group these cases by their outcome type. Return the count of cases for each outcome type.",
+                "Cypher Query": "MATCH (c:Case)-[:HAS_REACTION]->(r:Reaction {description: \"Nausea\"}), (c)-[:RESULTED_IN]->(o:Outcome) RETURN o.outcome AS outcome, COUNT(c) AS totalCases;"
+            },
+            {
+                "NL Question": "For all cases that involved the reaction \"Diarrhoea,\" calculate the total number of cases and the average age of patients for each outcome.",
+                "Cypher Query": "MATCH (c:Case)-[:HAS_REACTION]->(r:Reaction {description: \"Diarrhoea\"}), (c)-[:RESULTED_IN]->(o:Outcome) RETURN o.outcome AS outcome, COUNT(c) AS totalCases, AVG(c.age) AS avgAge;"
+            },
+            {
+                "NL Question": "For each outcome, find the total number of cases where \"LENALIDOMIDE\" was the primary suspect drug, and also compute the average age of patients for each outcome.",
+                "Cypher Query": "MATCH (c:Case)-[:IS_PRIMARY_SUSPECT]->(d:Drug {name: \"LENALIDOMIDE\"}), (c)-[:RESULTED_IN]->(o:Outcome) RETURN o.outcome AS outcome, COUNT(c) AS totalCases, AVG(c.age) AS avgAge;"
+            },
+            {
+                "NL Question": "For each distinct case reported by either a \"Health Professional\" or \"User Facility,\" how many distinct drugs were prescribed in the therapy associated with that case?",
+                "Cypher Query": "MATCH (c:Case)-[:REPORTED_BY]->(r:ReportSource), (c)-[:RECEIVED]->(t:Therapy)-[:PRESCRIBED]->(d:Drug) WHERE r.name IN [\"Health Professional\", \"User Facility\"] RETURN c.id AS caseId, COUNT(DISTINCT d) AS totalDrugsPrescribed;"
+            },
+            {
+                "NL Question": "How many cases were registered with manufacturers where the outcome was \"Life-Threatening\" and the primary suspect drug was \"LYRICA\"?",
+                "Cypher Query": "MATCH (c:Case)-[:RESULTED_IN]->(o:Outcome {outcome: \"Life-Threatening\"}), (c)-[:IS_PRIMARY_SUSPECT]->(d:Drug {name: \"LYRICA\"}), (m:Manufacturer)-[:REGISTERED]->(c) RETURN COUNT(c) AS totalCases;"
+            },
+            {
+                "NL Question": "What is the average age of cases grouped by their age group where the outcome was \"Death,\" ordered by the average age in descending order?",
+                "Cypher Query": "MATCH (c:Case)-[:RESULTED_IN]->(o:Outcome {outcome: \"Death\"}), (c)-[:FALLS_UNDER]->(ag:AgeGroup) RETURN ag.ageGroup AS ageGroup, AVG(c.age) AS averageAge ORDER BY averageAge DESC;"
+            },
+            {
+                "NL Question": "What are the top 5 most common routes of administration for primary suspect drugs that resulted in \"Death,\" ordered by their frequency in descending order?",
+                "Cypher Query": "MATCH (c:Case)-[:RESULTED_IN]->(o:Outcome {outcome: \"Death\"}), (c)-[rel:IS_PRIMARY_SUSPECT]->(d:Drug) RETURN rel.route AS route, COUNT(*) AS frequency ORDER BY frequency DESC LIMIT 5;"
+            },
+            {
+                "NL Question": "Which cases received therapy, and what were the names of the prescribed drugs along with the number of drugs prescribed? Display the top 3 cases, ordered by the number of drugs prescribed in descending order.",
+                "Cypher Query": "MATCH (c:Case)-[:RECEIVED]->(t:Therapy)-[:PRESCRIBED]->(d:Drug) WITH c.id AS caseID, COLLECT(d.name) AS prescribedDrugs, COUNT(d) AS drugCount ORDER BY drugCount DESC LIMIT 3 RETURN caseID, prescribedDrugs, drugCount;"
+            },
+            {
+                "NL Question": "Display the names of top 5 drugs associated with the highest number of cases as either primary or secondary suspects, along with their associated case counts.",
+                "Cypher Query": "MATCH (c:Case)-[rel:IS_PRIMARY_SUSPECT|IS_SECONDARY_SUSPECT]->(d:Drug) WITH d.name AS drugName, COUNT(DISTINCT c) AS caseCount ORDER BY caseCount DESC LIMIT 5 RETURN drugName, caseCount;"
+            },
+            {
+                "NL Question": "What is the average age of cases that had a reaction of \"Fall,\" resulted in \"Death,\" and are grouped by age group, ordered by the average age in descending order?",
+                "Cypher Query": "MATCH (c:Case)-[:FALLS_UNDER]->(a:AgeGroup), (c)-[:HAS_REACTION]->(r:Reaction {description: \"Fall\"}), (c)-[:RESULTED_IN]->(o:Outcome {outcome: \"Death\"}) WITH a.ageGroup AS ageGroup, AVG(c.age) AS avgAge RETURN ageGroup, avgAge ORDER BY avgAge DESC;"
+            }
+        ],
+        "Evaluation_query": [
+            {
+                "NL Question": "What was the outcome of the case with ID \"45\"?",
+                "Cypher Query": "MATCH (c:Case)-[:RESULTED_IN]->(o:Outcome) WHERE c.id = 45 RETURN o.outcome AS outcome;"
+            },
+            {
+                "NL Question": "What is the name of the drug involved in the case with ID \"2\", and what was the outcome of that case?",
+                "Cypher Query": "MATCH (c:Case)-[:RESULTED_IN]->(o:Outcome), (c)-[:IS_PRIMARY_SUSPECT]->(d:Drug) WHERE c.id = 2 RETURN d.name AS drugName, o.outcome AS outcome;"
+            },
+            {
+                "NL Question": "Which age group does the case with ID \"789\" belong to?",
+                "Cypher Query": "MATCH (c:Case)-[:FALLS_UNDER]->(a:AgeGroup) WHERE c.id = 789 RETURN a.ageGroup AS ageGroup;"
+            },
+            {
+                "NL Question": "What is the route of administration for the drug \"LYRICA\" in the case with ID \"5\"?",
+                "Cypher Query": "MATCH (c:Case)-[rel:IS_PRIMARY_SUSPECT]->(d:Drug) WHERE d.name = \"LYRICA\" AND c.id = 5 RETURN rel.route AS route;"
+            },
+            {
+                "NL Question": "What is the name of the drug associated with the case that has the reaction \"Headache\" and ID \"7\"?",
+                "Cypher Query": "MATCH (c:Case)-[:HAS_REACTION]->(r:Reaction), (c)-[:IS_PRIMARY_SUSPECT]->(d:Drug) WHERE r.description = \"Headache\" AND c.id = 7 RETURN d.name AS drugName;"
+            },
+            {
+                "NL Question": "What is the drug sequence for the therapy prescribed in the case with ID \"161\"?",
+                "Cypher Query": "MATCH (c:Case)-[rec:RECEIVED]->(t:Therapy)-[p:PRESCRIBED]->(d:Drug) WHERE c.id = 161 RETURN p.drugSequence AS drugSequence;"
+            },
+            {
+                "NL Question": "What was the date of the event for the case with ID \"100\"?",
+                "Cypher Query": "MATCH (c:Case) WHERE c.id = 100 RETURN date(c.eventDate) AS eventDate;"
+            },
+            {
+                "NL Question": "Which drug is involved in the case with ID \"6\", where the drug route is \"Intravenous drip\" and the case resulted in \"Hospitalization - Initial or Prolonged\"?",
+                "Cypher Query": "MATCH (c:Case)-[:RESULTED_IN]->(o:Outcome), (c)-[p:IS_PRIMARY_SUSPECT]->(d:Drug) WHERE c.id = 6 AND p.route = \"Intravenous drip\" AND o.outcome = \"Hospitalization - Initial or Prolonged\" RETURN d.name AS drugName;"
+            },
+            {
+                "NL Question": "What is the name of the manufacturer for the drug \"REVLIMID\" involved in the case with ID \"8\", and what was the outcome of that case?",
+                "Cypher Query": "MATCH (c:Case)-[:RESULTED_IN]->(o:Outcome), (c)-[:IS_PRIMARY_SUSPECT]->(d:Drug), (m:Manufacturer)-[:REGISTERED]->(c) WHERE d.name = \"REVLIMID\" AND c.id = 8 RETURN m.manufacturerName AS manufacturer, o.outcome AS outcome;"
+            },
+            {
+                "NL Question": "What is the name of the drug involved in the case with ID \"51\" that has the outcome \"Death\" and was reported by a \"Health Professional\"?",
+                "Cypher Query": "MATCH (c:Case)-[:RESULTED_IN]->(o:Outcome), (c)-[:IS_PRIMARY_SUSPECT]->(d:Drug), (c)-[:REPORTED_BY]->(r:ReportSource) WHERE c.id = 51 AND o.outcome = \"Death\" AND r.name = \"Health Professional\" RETURN d.name AS drugName;"
+            }
+        ]
+    },
+    "wwc": {
+        "Simple_Retrieval": [
+            {
+                "NL_Question": "Retrieve all squads along with their associated tournament by returning each squad’s ID, and the tournament’s year and name.",
+                "Cypher_Query": "MATCH (s:Squad)-[:FOR]->(t:Tournament) RETURN s.id AS squadId, t.year AS tournamentYear, t.name AS tournamentName;"
+            },
+            {
+                "NL_Question": "Retrieve all matches that were played in tournaments held in the year 2011. For each match, return its ID, stage, date, and the name of the tournament.",
+                "Cypher_Query": "MATCH (m:Match)-[:IN_TOURNAMENT]->(t:Tournament) WHERE t.year = 2011 RETURN m.id AS matchId, m.stage AS stage, m.date AS matchDate, t.name AS tournamentName;"
+            },
+            {
+                "NL_Question": "Retrieve all distinct players who scored a goal in the match with ID '21974'. Return each player's name, ID, and the match ID.",
+                "Cypher_Query": "MATCH (p:Person)-[:SCORED_GOAL]->(m:Match) WHERE m.id = '21974' RETURN DISTINCT p.name AS playerName, p.id AS playerId, m.id AS matchId;"
+            },
+            {
+                "NL_Question": "Retrieve all persons who serve as coaches for squads. For each coach, return their name, ID, and the ID of the squad they coach.",
+                "Cypher_Query": "MATCH (p:Person)-[:COACH_FOR]->(s:Squad) RETURN DISTINCT p.name AS coachName, p.id AS coachId, s.id AS squadId;"
+            },
+            {
+                "NL_Question": "Retrieve the name and ID of team(s) that person with ID '197590' represents.",
+                "Cypher_Query": "MATCH (p:Person)-[:REPRESENTS]->(t:Team) WHERE p.id = '197590' RETURN t.name AS teamName, t.id AS teamId;"
+            },
+            {
+                "NL_Question": "Retrieve all tournaments in which the team 'France' participated. For each tournament, return its year, name, ID, and short name.",
+                "Cypher_Query": "MATCH (t:Team {name: 'France'})-[:PARTICIPATED_IN]->(tour:Tournament) RETURN tour.year AS year, tour.name AS tournamentName, tour.id AS tournamentId, tour.shortName AS shortName;"
+            },
+            {
+                "NL_Question": "Fetch the ID, stage, date of all the matches in which player named 'Kerstin Stegemann' participated.",
+                "Cypher_Query": "MATCH (p:Person)-[:PLAYED_IN]->(m:Match) WHERE p.name = 'Kerstin Stegemann' RETURN m.id AS matchId, m.stage AS stage, m.date AS matchDate;"
+            },
+            {
+                "NL_Question": "Retrieve the squad ID for the team 'Japan' in the tournament named 'China 2007'.",
+                "Cypher_Query": "MATCH (t:Team)-[:NAMED]->(s:Squad), (s)-[:FOR]->(tour:Tournament) WHERE t.name = 'Japan' AND tour.name = 'China 2007' RETURN s.id AS squadId;"
+            },
+            {
+                "NL_Question": "Retrieve the name and ID of all the persons who are members of the squad with ID 'Brazil in 1999'.",
+                "Cypher_Query": "MATCH (p:Person)-[:IN_SQUAD]->(s:Squad {id: 'Brazil in 1999'}) RETURN p.name AS personName, p.id AS personId;"
+            },
+            {
+                "NL_Question": "Retrieve all teams that scored more than 6 goals in any match they played. For each occurrence, return the team’s name, ID, the match ID, and the score achieved in that match.",
+                "Cypher_Query": "MATCH (t:Team)-[r:PLAYED_IN]->(m:Match) WHERE r.score > 6 RETURN t.name AS teamName, t.id AS teamId, m.id AS matchId, r.score AS matchScore;"
+            }
+        ], 
+        "Simple_Aggregation": [
+            {
+            "NL_Question": "What is the total number of players across all squads?",
+            "Cypher_Query": "MATCH (p:Person)-[:IN_SQUAD]->(:Squad) RETURN COUNT(DISTINCT p) AS totalPlayers;"
+            },
+            {
+            "NL_Question": "What is the average number of matches played by each team?",
+            "Cypher_Query": "MATCH (t:Team)-[:PLAYED_IN]->(m:Match) WITH t, COUNT(m) AS matchCount RETURN AVG(matchCount) AS avgMatchesPerTeam;"
+            },
+            {
+            "NL_Question": "What is the highest score achieved by any team in a single match? Return the team name, match ID, and the maximum score.",
+            "Cypher_Query": "MATCH (t:Team)-[r:PLAYED_IN]->(m:Match) WHERE r.score IS NOT NULL WITH t, m, r.score AS score ORDER BY score DESC LIMIT 1 RETURN t.name AS team, m.id AS matchID, score AS maxScore;"
+            },
+            {
+            "NL_Question": "What is the average number of squads per tournament?",
+            "Cypher_Query": "MATCH (s:Squad)-[:FOR]->(t:Tournament) WITH t, COUNT(s) AS squadCount RETURN AVG(squadCount) AS avgSquadsPerTournament;"
+            },
+            {
+            "NL_Question": "What is the total number of goals scored by players in matches that were held in the year 2003?",
+            "Cypher_Query": "MATCH (p:Person)-[r:SCORED_GOAL]->(m:Match) WHERE m.date.year = 2003 RETURN COUNT(r) AS totalGoals;"
+            },
+            {
+            "NL_Question": "Which is the youngest player (by date of birth) who represented the Germany team in a tournament held in 2011? Return the player's name, ID, and date of birth.",
+            "Cypher_Query": "MATCH (p:Person)-[:REPRESENTS]->(t:Team {name:'Germany'}), (t)-[:PARTICIPATED_IN]->(tour:Tournament {year: 2011}) WHERE p.dob IS NOT NULL RETURN p.name AS playerName, p.id AS playerId, p.dob AS dateOfBirth ORDER BY p.dob DESC LIMIT 1;"
+            },
+            {
+            "NL_Question": "What is the average number of players per squad?",
+            "Cypher_Query": "MATCH (p:Person)-[:IN_SQUAD]->(s:Squad) WITH s, COUNT(p) AS playerCount RETURN AVG(playerCount) AS avgPlayersPerSquad;"
+            },
+            {
+            "NL_Question": "What is the total number of matches played in the tournament named 'USA 1999'?",
+            "Cypher_Query": "MATCH (m:Match)-[:IN_TOURNAMENT]->(tour:Tournament {name:'USA 1999'}) RETURN COUNT(m) AS matchCount;"
+            },
+            {
+            "NL_Question": "Which squad has had the highest number of distinct persons serving as coaches? Return the squad's ID along with the count of distinct coaches.",
+            "Cypher_Query": "MATCH (p:Person)-[:COACH_FOR]->(s:Squad) WITH s, COUNT(DISTINCT p) AS coachCount RETURN s.id AS squadId, coachCount ORDER BY coachCount DESC LIMIT 1;"
+            },
+            {
+            "NL_Question": "How many matches did player 'Renata Costa' participate in throughout their career?",
+            "Cypher_Query": "MATCH (p:Person)-[:PLAYED_IN]->(m:Match) WHERE p.name = 'Renata Costa' RETURN COUNT(DISTINCT m) AS totalMatches;"
+            }
+        ], 
+        "Complex_Retrieval": [
+            {
+            "NL_Question": "For tournaments held in 2015, retrieve all matches in which the team 'USA' played. For each match, list the players from USA who scored a goal along with the minute at which the goal was scored. Return the match ID, tournament name, player name, and goal minute.",
+            "Cypher_Query": "MATCH (m:Match)-[:IN_TOURNAMENT]->(tour:Tournament {year: 2015}), (usa:Team {name:'USA'})-[:PLAYED_IN]->(m), (p:Person)-[sg:SCORED_GOAL]->(m), (p)-[:REPRESENTS]->(usa) RETURN m.id AS matchId, tour.name AS tournamentName, p.name AS playerName, sg.minute AS goalMinute;"
+            },
+            {
+            "NL_Question": "Retrieve the names and dates of birth of all players in the squad that participated in the 'Franch 2019' tournament, and include the name of the team they represent.",
+            "Cypher_Query": "MATCH (s:Squad)-[:FOR]->(tour:Tournament {name:'France 2019'}), (p:Person)-[:IN_SQUAD]->(s), (p)-[:REPRESENTS]->(team:Team) RETURN p.name AS playerName, p.dob AS dob, team.name AS teamName;"
+            },
+            {
+            "NL_Question": "For each tournament, retrieve the tournament name and, for every team that participated, list the team’s name along with the total number of matches they played in that tournament.",
+            "Cypher_Query": "MATCH (t:Team)-[:PARTICIPATED_IN]->(tour:Tournament), (t)-[r:PLAYED_IN]->(m:Match), (m)-[:IN_TOURNAMENT]->(tour) WITH tour, t, COUNT(m) AS matchCount RETURN tour.name AS tournamentName, t.name AS teamName, matchCount;"
+            },
+            {
+            "NL_Question": "Retrieve the names of coaches along with the IDs of the squads they coach, and include the tournament name in which each squad participated.",
+            "Cypher_Query": "MATCH (p:Person)-[:COACH_FOR]->(s:Squad), (s)-[:FOR]->(tour:Tournament) RETURN p.name AS coachName, s.id AS squadId, tour.name AS tournamentName;"
+            },
+            {
+            "NL_Question": "Retrieve the list of players who participated in matches on '2019-07-07'. For each match, include the minute they entered the game, or mention '00 - Starting' if they were in the starting lineup (i.e., no entry time available), ordered by entry minute.",
+            "Cypher_Query": "MATCH (p:Person)-[pi:PLAYED_IN]->(m:Match {date: date('2019-07-07')}) RETURN p.name AS playerName, m.id AS matchID, COALESCE(pi.minuteOn, '00 - Starting') AS entryMinute ORDER BY m.id, entryMinute;"
+            },
+            {
+            "NL_Question": "Retrieve all teams along with the squads they were named for, and for each record, return the team’s name, the squad ID, and the tournament name in which the squad participated.",
+            "Cypher_Query": "MATCH (t:Team)-[:NAMED]->(s:Squad), (s)-[:FOR]->(tour:Tournament) RETURN t.name AS teamName, s.id AS squadId, tour.name AS tournamentName;"
+            },
+            {
+            "NL_Question": "Find the player who scored the most goals in a single match. Return the player's name, the match ID, and the total number of goals scored by that player in that match.",
+            "Cypher_Query": "MATCH (p:Person)-[sg:SCORED_GOAL]->(m:Match) WITH p, m, COUNT(sg) AS goals RETURN p.name AS playerName, m.id AS matchId, goals ORDER BY goals DESC LIMIT 1;"
+            },
+            {
+            "NL_Question": "Retrieve the names of all coaches who have coached in more than one tournament, along with the count of distinct tournaments they have coached in.",
+            "Cypher_Query": "MATCH (p:Person)-[:COACH_FOR]->(s:Squad)-[:FOR]->(tour:Tournament) WITH p, COUNT(DISTINCT tour) AS tournamentsCoached WHERE tournamentsCoached > 1 RETURN p.name AS coachName, tournamentsCoached;"
+            },
+            {
+            "NL_Question": "Which individuals have served as both a coach and a player for the same team, where the squad is named after the team? Retrieve the name and ID of the person along with the name of the team they represented.",
+            "Cypher_Query": "MATCH (p:Person)-[:COACH_FOR]->(s:Squad)<-[:NAMED]-(t:Team) MATCH (p)-[:REPRESENTS]->(t) RETURN DISTINCT p.name AS personName, p.id AS personID, t.name AS teamName;"
+            }
+        ], 
+        "Complex_Aggregation": [
+            {
+            "NL_Question": "For each tournament, compute both the average number of matches played per team and the total number of matches played in that tournament. Return the tournament name, year, average matches per team, and total matches.",
+            "Cypher_Query": "MATCH (t:Team)-[r:PLAYED_IN]->(m:Match)-[:IN_TOURNAMENT]->(tour:Tournament) WITH tour, t, COUNT(m) AS teamMatchCount WITH tour, AVG(teamMatchCount) AS avgMatchesPerTeam, SUM(teamMatchCount) AS totalMatches RETURN tour.name AS tournamentName, tour.year AS tournamentYear, avgMatchesPerTeam, totalMatches;"
+            },
+            {
+            "NL_Question": "For each team, calculate the total number of matches they played and the average number of goals scored per match. Return the team name, total matches played, and average goals per match.",
+            "Cypher_Query": "MATCH (t:Team)-[r:PLAYED_IN]->(m:Match) WHERE r.score IS NOT NULL WITH t, COUNT(m) AS matchCount, SUM(r.score) AS totalGoals RETURN t.name AS teamName, matchCount AS totalMatches, toFloat(totalGoals)/matchCount AS avgGoalsPerMatch;"
+            },
+            {
+            "NL_Question": "For each player, determine the total number of matches played and the total number of goals scored, then calculate the average goals per match. Return the top 5 players with the highest average goals per match along with their names, match counts, and goal averages.",
+            "Cypher_Query": "MATCH (p:Person)-[:PLAYED_IN]->(m:Match) WITH p, COUNT(DISTINCT m) AS totalMatches OPTIONAL MATCH (p)-[sg:SCORED_GOAL]->(m2:Match) WITH p, totalMatches, COUNT(sg) AS totalGoals RETURN p.name AS playerName, totalMatches, totalGoals, CASE WHEN totalMatches = 0 THEN 0 ELSE toFloat(totalGoals)/totalMatches END AS avgGoalsPerMatch ORDER BY avgGoalsPerMatch DESC LIMIT 5;"
+            },
+            {
+            "NL_Question": "For the tournament 'Canada 2015', find the youngest player based on their age at the time of the tournament. Return the player name and age during the tournament.",
+            "Cypher_Query": "MATCH (p:Person)-[:PLAYED_IN]->(m:Match)-[:IN_TOURNAMENT]->(tour:Tournament {name: 'Canada 2015'}) WHERE p.dob IS NOT NULL ORDER BY p.dob DESC LIMIT 1 RETURN p.name as name, tour.year - p.dob.year as age;"
+            },
+            {
+            "NL_Question": "For each squad, compute the total number of players and the average number of goals scored by its players in matches. Return the squad ID, total player count, and average goals per player.",
+            "Cypher_Query": "MATCH (s:Squad)<-[:IN_SQUAD]-(p:Person) OPTIONAL MATCH (p)-[sg:SCORED_GOAL]->(:Match) WITH s, p, COUNT(sg) AS goalsPerPlayer WITH s, COUNT(DISTINCT p) AS totalPlayers, AVG(goalsPerPlayer) AS avgGoalsPerPlayer RETURN s.id AS squadId, totalPlayers, avgGoalsPerPlayer;"
+            },
+            {
+            "NL_Question": "Which player participated in the most matches during the year 2011? Return the player's name, ID, and the total number of matches played.",
+            "Cypher_Query": "MATCH (p:Person)-[:PLAYED_IN]->(m:Match) WHERE m.date.year = 2011 WITH p, COUNT(m) AS matchCount RETURN p.name AS playerName, p.id AS playerId, matchCount ORDER BY matchCount DESC LIMIT 1;"
+            },
+            {
+            "NL_Question": "For each coach, determine how many distinct tournaments they have coached in and the average size of the squads they coached. Return the coach’s name, the number of tournaments coached, and the average squad size.",
+            "Cypher_Query": "MATCH (p:Person)-[:COACH_FOR]->(s:Squad)-[:FOR]->(tour:Tournament) MATCH (s)<-[:IN_SQUAD]-(pl:Person) WITH p, tour, s, COUNT(pl) AS squadSize WITH p, COLLECT(DISTINCT tour.id) AS tournaments, AVG(squadSize) AS avgSquadSize RETURN p.name AS coachName, SIZE(tournaments) AS tournamentsCoached, avgSquadSize;"
+            },
+            {
+            "NL_Question": "For each tournament, identify the highest goal scorer by determining the player who scored the most goals in that tournament. Return the tournament name, the player's name, the player's ID, and the total number of goals scored by that player.",
+            "Cypher_Query": "MATCH (tour:Tournament) MATCH (m:Match)-[:IN_TOURNAMENT]->(tour) MATCH (p:Person)-[sg:SCORED_GOAL]->(m) WITH tour, p, COUNT(sg) AS totalGoals ORDER BY tour.id, totalGoals DESC WITH tour, COLLECT({player: p, totalGoals: totalGoals}) AS scorers RETURN tour.name AS tournamentName, scorers[0].player.name AS playerName, scorers[0].player.id AS playerId, scorers[0].totalGoals AS totalGoals;"
+            },
+            {
+            "NL_Question": "For each tournament, calculate the total number of goals scored and determine the average goals per match. Return the tournament name, total goals, total matches, and average goals per match.",
+            "Cypher_Query": "MATCH (m:Match)-[:IN_TOURNAMENT]->(tour:Tournament) OPTIONAL MATCH (:Person)-[sg:SCORED_GOAL]->(m) WITH tour, m, COUNT(sg) AS matchGoals WITH tour, SUM(matchGoals) AS totalGoals, COUNT(m) AS totalMatches RETURN tour.name AS tournamentName, totalGoals, totalMatches, CASE WHEN totalMatches > 0 THEN toFloat(totalGoals) / totalMatches ELSE 0 END AS avgGoalsPerMatch;"
+            },
+            {
+            "NL_Question": "For matches played in 2019, identify the player who was substituted on the most times. Return the player's name and the number of matches in which they were subbed on.",
+            "Cypher_Query": "MATCH (p:Person)-[r:PLAYED_IN]->(m:Match)-[:IN_TOURNAMENT]->(tour:Tournament) WHERE r.type = 'Subbed On' AND tour.year = 2019 WITH p, COUNT(DISTINCT m) AS matchCount RETURN p.name AS playerName, matchCount ORDER BY matchCount DESC LIMIT 1;"
+            }
+        ], 
+        "Evaluation_query": [
+            {
+            "NL_Question": "What is the name of the tournament with ID '4654'?",
+            "Cypher_Query": "MATCH (tour:Tournament) WHERE tour.id = '4654' RETURN tour.name AS tournamentName;"
+            },
+            {
+            "NL_Question": "What is the squad ID for team 'Brazil', participating in the tournament 'China 2007'?",
+            "Cypher_Query": "MATCH (t:Team {name:'Brazil'})-[:NAMED]->(s:Squad), (s)-[:FOR]->(tour:Tournament {name:'China 2007'}) RETURN s.id AS squadId;"
+            },
+            {
+            "NL_Question": "What is the stage of the match with ID '21984'?",
+            "Cypher_Query": "MATCH (m:Match {id:'21984'}) RETURN m.stage AS stage;"
+            },
+            {
+            "NL_Question": "What is the average score of the team 'Germany' in matches that are part of the tournament with short name 'france2019'?",
+            "Cypher_Query": "MATCH (t:Team {name:'Germany'})-[r:PLAYED_IN]->(m:Match)-[:IN_TOURNAMENT]->(tour:Tournament {shortName:'france2019'}) WHERE r.score IS NOT NULL RETURN AVG(r.score) AS avgScore;"
+            },
+            {
+            "NL_Question": "What is the short name of the tournament in which the squad with ID 'USA in 2007' participated?",
+            "Cypher_Query": "MATCH (s:Squad {id:'USA in 2007'})-[:FOR]->(tour:Tournament) RETURN tour.shortName AS shortName;"
+            }
+        ]
+    },
+    "twitter_trolls": {
+        "Simple_Retrieval": [
+            {
+            "NL_Question": "Retrieve all troll accounts by returning their user key, ID, name, screen name, and location.",
+            "Cypher_Query": "MATCH (t:Troll) RETURN t.user_key AS trollKey, t.id AS trollId, t.name AS trollName, t.screen_name AS screenName, t.location AS location;"
+            },
+            {
+            "NL_Question": "Retrieve all tweets that include \"blacklivesmatter\" hashtag, by returning the tweet ID and text.",
+            "Cypher_Query": "MATCH (t:Tweet)-[:HAS_TAG]->(h:Hashtag {tag:\"blacklivesmatter\"}) RETURN t.id AS tweetId, t.text AS tweetText;"
+            },
+            {
+            "NL_Question": "Retrieve all users who have posted more than 100 tweets, by returning their screen name and tweets count.",
+            "Cypher_Query": "MATCH (u:User)-[:POSTED]->(t:Tweet) WITH u, COUNT(t) AS tweetCount WHERE tweetCount > 100 RETURN u.screen_name AS userName, tweetCount;"
+            },
+            {
+            "NL_Question": "Retrieve all tweets that were posted by Trolls between November 1, 2016, and November 30, 2016. Return the tweet ID, text and the string version of the timestamp when the tweet was created.",
+            "Cypher_Query": "MATCH (troll:Troll)-[r:POSTED]->(t:Tweet) WHERE t.created_at >= 1477958400000 AND t.created_at <= 1480550399000 RETURN t.id AS tweetId, t.text AS tweetText, t.created_str AS timestamp;"
+            },
+            {
+            "NL_Question": "Retrieve all replies made by the user with the screen name \"USA_Gunslinger\". Return the reply tweet ID, text, and the original tweet ID.",
+            "Cypher_Query": "MATCH (u:User {screen_name: \"USA_Gunslinger\"})-[:POSTED]->(reply:Tweet)-[:IN_REPLY_TO]->(original:Tweet) RETURN reply.id AS replyTweetId, reply.text AS replyText, original.id AS originalTweetId;"
+            },
+            {
+            "NL_Question": "Retrieve all unique sources from which tweets were posted. Return the distinct source names.",
+            "Cypher_Query": "MATCH (s:Source) RETURN DISTINCT s.name AS sourceName;"
+            },
+            {
+            "NL_Question": "Retrieve all tweets that were posted via a source containing keyword \"Twitter for iPhone\", by returning the tweet ID, text, and the source name.",
+            "Cypher_Query": "MATCH (t:Tweet)-[:POSTED_VIA]->(s:Source) WHERE s.name CONTAINS \"Twitter for iPhone\" RETURN t.id AS tweetId, t.text AS tweetText, s.name AS sourceName;"
+            },
+            {
+            "NL_Question": "Retrieve all tweets posted by users whose language is set to \"fr\" (French). Return the tweet ID, text, and the user's screen name.",
+            "Cypher_Query": "MATCH (u:User {lang: \"fr\"})-[:POSTED]->(t:Tweet) RETURN t.id AS tweetId, t.text AS tweetText, u.screen_name AS userName, u.lang AS userLanguage;"
+            },
+            {
+            "NL_Question": "Retrieve all users who have been mentioned in at least one tweet. Return their screen name and the number of times they were mentioned.",
+            "Cypher_Query": "MATCH (t:Tweet)-[:MENTIONS]->(u:User) RETURN u.screen_name AS mentionedUser, COUNT(t) AS mentionCount;"
+            },
+            {
+            "NL_Question": "Retrieve all tweets that contain multiple URLs. Return tweet ID, text and URLs count.",
+            "Cypher_Query": "MATCH (t:Tweet)-[:HAS_LINK]->(u:URL) WITH t, COUNT(u) AS urlCount WHERE urlCount > 1 RETURN t.id AS tweetId, t.text AS tweetText, urlCount;"
+            }
+        ], 
+        "Complex_Retrieval": [
+            {
+            "NL_Question": "Find all tweets posted by trolls that mention at least one user and contain a hashtag. Return the troll's screen name, tweet ID and text.",
+            "Cypher_Query": "MATCH (t:Troll)-[:POSTED]->(tw:Tweet)-[:MENTIONS]->(u:User), (tw)-[:HAS_TAG]->(h:Hashtag) RETURN t.screen_name AS trollScreenName, tw.id AS tweetID, tw.text AS tweetText;"
+            },
+            {
+            "NL_Question": "Retrieve the names of top 5 users with the most tweets, along with the tweets count and a collection of distinct sources they have used to post tweets.",
+            "Cypher_Query": "MATCH (u:User)-[:POSTED]->(tw:Tweet)-[:POSTED_VIA]->(s:Source) WITH u, COUNT(tw) AS tweetCount, COLLECT(DISTINCT s.name) AS SourcesUsed ORDER BY tweetCount DESC LIMIT 5 RETURN u.username AS UserName, tweetCount, SourcesUsed;"
+            },
+            {
+            "NL_Question": "Retrieve all tweets posted by trolls in the \"Pacific Time (US & Canada)\" timezone that were created after January 1, 2017. Return the troll's name, tweet content, and the human-readable timestamp (datetime format).",
+            "Cypher_Query": "MATCH (t:Tweet)<-[:POSTED]-(u:Troll) WHERE u.time_zone = \"Pacific Time (US & Canada)\" AND t.created_at > 1483228800000 RETURN u.name AS TrollName, t.text AS TweetContent, datetime({epochMillis: t.created_at}) AS CreatedAt;"
+            },
+            {
+            "NL_Question": "Retrieve the names, follower counts and statuses count of users who have more than 4,000 followers but have posted fewer than 500 statuses.",
+            "Cypher_Query": "MATCH (u:User) WHERE coalesce(u.followers_count, 0) > 4000 AND coalesce(u.statuses_count, 0) < 500 RETURN u.name AS UserName, u.followers_count AS Followers, u.statuses_count AS StatusesCount;"
+            },
+            {
+            "NL_Question": "Retrieve the top 5 users who have interacted with the highest number of unique trolls via replies or retweets. Return each user’s name, the number of unique trolls they interacted with, and a collection of the troll names.",
+            "Cypher_Query": "MATCH (t:Troll)-[:POSTED]->(tw:Tweet) MATCH (u:User)-[:POSTED]->(inter_tw:Tweet)-[r]->(tw) WHERE type(r) IN [\"RETWEETED\", \"IN_REPLY_TO\"] WITH u, COUNT(DISTINCT t) AS UniqueTrolls, COLLECT(DISTINCT t.name) AS TrollNames ORDER BY UniqueTrolls DESC LIMIT 5 RETURN u.name AS UserName, UniqueTrolls, TrollNames;"
+            },
+            {
+            "NL_Question": "Find all tweets containing at least 5 different hashtags and return the tweet ID along with the count of hashtags in each tweet.",
+            "Cypher_Query": "MATCH (t:Tweet)-[:HAS_TAG]->(h:Hashtag) WITH t, COUNT(DISTINCT h) AS HashtagCount WHERE HashtagCount >= 5 RETURN t.id AS TweetID, HashtagCount;"
+            },
+            {
+            "NL_Question": "Find all users who have been mentioned in at least 50 different tweets and are English-speaking (\"en\"). Return the mentioned user's name, verification status, and the number of tweets in which they were mentioned.",
+            "Cypher_Query": "MATCH (t:Tweet)-[:MENTIONS]->(m:User) WHERE m.lang = \"en\" WITH m, COUNT(DISTINCT t) AS MentionCount WHERE MentionCount >= 50 RETURN m.name AS MentionedUser, m.verified AS IsVerified, MentionCount;"
+            },
+            {
+            "NL_Question": "Retrieve all unique sources from which tweets containing URLs with \"cnn.com\" were posted. Return the source name along with the count of such tweets.",
+            "Cypher_Query": "MATCH (t:Tweet)-[:HAS_LINK]->(url:URL), (t)-[:POSTED_VIA]->(s:Source) WHERE url.expanded_url CONTAINS \"cnn.com\" RETURN s.name AS Source, COUNT(DISTINCT t) AS TweetCount;"
+            },
+            {
+            "NL_Question": "Retrieve the top 3 users who have shared the highest number of unique URLs that contain \"nytimes.com\". For each user, return their name and the count of such unique URLs they shared.",
+            "Cypher_Query": "MATCH (u:User)-[:POSTED]->(tw:Tweet)-[:HAS_LINK]->(url:URL) WHERE url.expanded_url CONTAINS \"nytimes.com\" WITH u, COUNT(DISTINCT url) AS UniqueURLCount ORDER BY UniqueURLCount DESC LIMIT 3 RETURN u.name AS UserName, UniqueURLCount;"
+            },
+            {
+            "NL_Question": "Retrieve the top 5 most frequently co-occurring hashtag pairs, ensuring that each pair is unique (i.e., order does not matter, and duplicate pairs are removed). Return both hashtags and the count of tweets they appeared in together.",
+            "Cypher_Query": "MATCH (t:Tweet)-[:HAS_TAG]->(h1:Hashtag), (t)-[:HAS_TAG]->(h2:Hashtag) WHERE h1 <> h2 AND h1.tag < h2.tag WITH h1.tag AS Hashtag1, h2.tag AS Hashtag2, COUNT(DISTINCT t) AS tweetCount ORDER BY tweetCount DESC LIMIT 5 RETURN Hashtag1, Hashtag2, tweetCount;"
+            }
+        ], 
+        "Simple_Aggregation": [
+            {
+            "NL_Question": "What is the total number of tweets in the dataset?",
+            "Cypher_Query": "MATCH (t:Tweet) RETURN COUNT(t) AS totalTweets;"
+            },
+            {
+            "NL_Question": "What is the average favorite count across all tweets?",
+            "Cypher_Query": "MATCH (t:Tweet) RETURN AVG(t.favorite_count) AS avgFavoriteCount;"
+            },
+            {
+            "NL_Question": "Retrieve all users who have posted at least one tweet. Return their screen name and the number of tweets they posted.",
+            "Cypher_Query": "MATCH (u:User)-[:POSTED]->(t:Tweet) RETURN u.screen_name AS userName, COUNT(t) AS tweetCount;"
+            },
+            {
+            "NL_Question": "What are the most frequently used hashtags in tweets, along with their usage count, ordered from highest to lowest?",
+            "Cypher_Query": "MATCH (t:Tweet)-[:HAS_TAG]->(h:Hashtag) RETURN h.tag AS hashtag, COUNT(t) AS usageCount ORDER BY usageCount DESC;"
+            },
+            {
+            "NL_Question": "What were the top 10 most retweeted tweets? Return the tweet ID, text, and retweet count.",
+            "Cypher_Query": "MATCH (tw:Tweet) WHERE tw.retweet_count <> \"null\" RETURN tw.id AS tweetID, tw.text AS tweetText, tw.retweet_count AS retweetCount ORDER BY retweetCount DESC LIMIT 10;"
+            },
+            {
+            "NL_Question": "What are the different sources used by the troll with the screen name \"WhiteHouseCards\"? Return the count of distinct sources.",
+            "Cypher_Query": "MATCH (t:Troll {screen_name: \"WhiteHouseCards\"})-[:POSTED]->(tw:Tweet)-[:POSTED_VIA]->(s:Source) RETURN COUNT(DISTINCT s.name) AS distinctSourceCount;"
+            },
+            {
+            "NL_Question": "What is the average number of tweets posted per user?",
+            "Cypher_Query": "MATCH (u:User)-[:POSTED]->(t:Tweet) WITH u, COUNT(t) AS tweetCount RETURN AVG(tweetCount) AS avgTweetsPerUser;"
+            },
+            {
+            "NL_Question": "Who were the top 5 trolls based on the number of times they were mentioned? Return their name, ID, and the count of times they were mentioned.",
+            "Cypher_Query": "MATCH (tw:Tweet)-[:MENTIONS]->(t:Troll) RETURN t.name AS trollName, t.id AS trollID, COUNT(tw) AS mentionCount ORDER BY mentionCount DESC LIMIT 5;"
+            },
+            {
+            "NL_Question": "Retrieve the total number of tweets linking to each URL, returning the URL along with the count of tweets, ordered from highest to lowest count.",
+            "Cypher_Query": "MATCH (t:Tweet)-[:HAS_LINK]->(u:URL) RETURN u.expanded_url AS url, COUNT(t) AS tweetCount ORDER BY tweetCount DESC;"
+            },
+            {
+            "NL_Question": "How many tweets were replies between November 01, 2016, and November 30, 2016? Return the total number of replies.",
+            "Cypher_Query": "MATCH (tw:Tweet)-[:IN_REPLY_TO]->(:Tweet) WHERE tw.created_at >= 1477958400000 AND tw.created_at <= 1480550399000 RETURN COUNT(tw) AS totalReplies;"
+            }
+        ], 
+        "Complex_Aggregation": [
+            {
+            "NL_Question": "Which troll posted tweets using the highest number of distinct sources? Return the troll's screen name along with the count of distinct sources.",
+            "Cypher_Query": "MATCH (t:Troll)-[:POSTED]->(tw:Tweet)-[:POSTED_VIA]->(s:Source) RETURN t.screen_name AS trollScreenName, COUNT(DISTINCT s.name) AS distinctSourceCount ORDER BY distinctSourceCount DESC LIMIT 1;"
+            },
+            {
+            "NL_Question": "For each troll, find the average number of tweets they posted per day. Return the troll's screen name and average tweets per day ordered from highest to lowest.",
+            "Cypher_Query": "MATCH (t:Troll)-[:POSTED]->(tw:Tweet) WHERE tw.created_at <> \"null\" WITH t, date(datetime({epochMillis: tw.created_at})) AS tweetDate, COUNT(tw) AS dailyTweetCount RETURN t.screen_name AS trollScreenName, AVG(dailyTweetCount) AS avgTweetsPerDay ORDER BY avgTweetsPerDay DESC;"
+            },
+            {
+            "NL_Question": "Find the number of distinct hashtags used by trolls who tweeted more than 100 times. Return the troll's screen name and number of unique hashtags used.",
+            "Cypher_Query": "MATCH (t:Troll)-[:POSTED]->(tw:Tweet)-[:HAS_TAG]->(h:Hashtag) WITH t, COUNT(tw) AS tweetCount, COUNT(DISTINCT h.tag) AS uniqueHashtags WHERE tweetCount > 100 RETURN t.screen_name AS trollScreenName, uniqueHashtags;"
+            },
+            {
+            "NL_Question": "Find the screen name of top 5 most frequently mentioned users and their total mention count.",
+            "Cypher_Query": "MATCH (tw:Tweet)-[:MENTIONS]->(u:User) RETURN u.screen_name AS mentionedUser, COUNT(tw) AS mentionCount ORDER BY mentionCount DESC LIMIT 5;"
+            },
+            {
+            "NL_Question": "For each time zone, retrieve the total number of tweets posted and the average number of followers of users posting from that time zone. Return the time zone, total tweet count, and average follower count.",
+            "Cypher_Query": "MATCH (u:User)-[:POSTED]->(tw:Tweet) WITH u.time_zone AS TimeZone, COUNT(tw) AS totalTweets, AVG(u.followers_count) AS avgFollowers RETURN TimeZone, totalTweets, avgFollowers;"
+            },
+            {
+            "NL_Question": "Retrieve the total number of replies received by each troll and rank them in descending order. Return the troll's screen name and the total count of replies received.",
+            "Cypher_Query": "MATCH (t:Troll)-[:POSTED]->(tw:Tweet)<-[:IN_REPLY_TO]-(reply:Tweet) RETURN t.screen_name AS trollScreenName, COUNT(reply) AS totalRepliesReceived ORDER BY totalRepliesReceived DESC;"
+            },
+            {
+            "NL_Question": "Retrieve the total number of unique URLs shared by each user and rank them in descending order. Return the user's screen name and the count of unique URLs shared.",
+            "Cypher_Query": "MATCH (u:User)-[:POSTED]->(tw:Tweet)-[:HAS_LINK]->(url:URL) RETURN u.screen_name AS userScreenName, COUNT(DISTINCT url.expanded_url) AS uniqueURLs ORDER BY uniqueURLs DESC;"
+            },
+            {
+            "NL_Question": "Retrieve the number of tweets posted by trolls for each month in 2016. Return the year, month, and the total count of tweets, ordered chronologically.",
+            "Cypher_Query": "MATCH (t:Troll)-[:POSTED]->(tw:Tweet) WHERE tw.created_at >= 1451606400000 AND tw.created_at < 1483228800000 WITH tw, date(datetime({epochMillis: tw.created_at})) AS tweetDate RETURN tweetDate.year AS year, tweetDate.month AS month, COUNT(tw) AS tweetCount ORDER BY year, month;"
+            },
+            {
+            "NL_Question": "For each source, find the number of unique users who have posted tweets using that source. Return the source name along with the count of unique users.",
+            "Cypher_Query": "MATCH (u:User)-[:POSTED]->(t:Tweet)-[:POSTED_VIA]->(s:Source) WITH s.name AS source, COUNT(DISTINCT u) AS uniqueUsers RETURN source, uniqueUsers;"
+            },
+            {
+            "NL_Question": "Find the top 5 most-retweeted tweets along with their original posters and the total number of times they were retweeted. Return the tweet ID, the original poster's screen name, and the total retweet count.",
+            "Cypher_Query": "MATCH (tw:Tweet)<-[:RETWEETED]-(rt:Tweet) MATCH (u:User)-[:POSTED]->(tw) RETURN tw.id AS tweetID, u.screen_name AS originalPoster, COUNT(rt) AS totalRetweets ORDER BY totalRetweets DESC LIMIT 5;"
+            }
+        ],
+        "Evaluation_query": [
+            {
+            "NL_Question": "Retrieve the text of the most retweeted tweet.",
+            "Cypher_Query": "MATCH (t:Tweet) WHERE t.retweet_count <> \"null\" RETURN t.text AS tweetText ORDER BY t.retweet_count DESC LIMIT 1;"
+            },
+            {
+            "NL_Question": "What is the name of the source used to post the tweet with ID \"760786317374545920\"?",
+            "Cypher_Query": "MATCH (t:Tweet {id: \"760786317374545920\"})-[:POSTED_VIA]->(s:Source) RETURN s.name AS sourceName;"
+            },
+            {
+            "NL_Question": "Compute the percentage of tweets that contain a URL and a hashtag together.",
+            "Cypher_Query": "MATCH (tw:Tweet) WITH COUNT(tw) AS totalTweets MATCH (tw)-[:HAS_LINK]->(:URL), (tw)-[:HAS_TAG]->(:Hashtag) WITH totalTweets, COUNT(tw) AS tweetsWithBoth RETURN toFloat(tweetsWithBoth) / totalTweets * 100 AS percentageWithBoth;"
+            },
+            {
+            "NL_Question": "Find the name of the user that has received the highest average retweets per tweet.",
+            "Cypher_Query": "MATCH (u:User)-[:POSTED]->(tw:Tweet) WITH u.name AS UserName, AVG(tw.retweet_count) AS avgRetweets ORDER BY avgRetweets DESC RETURN UserName LIMIT 1;"
+            },
+            {
+            "NL_Question": "Retrieve the timestamp of the first tweet ever posted in the dataset in a human-readable datetime format.",
+            "Cypher_Query": "MATCH (t:Tweet) RETURN datetime({epochMillis: t.created_at}) AS firstTweetDatetime ORDER BY t.created_at ASC LIMIT 1;"
+            },
+            {
+            "NL_Question": "Find the screen name of the user whose tweets were retweeted the most.",
+            "Cypher_Query": "MATCH (u:User)-[:POSTED]->(tw:Tweet)<-[:RETWEETED]-(rt:Tweet) WITH u.screen_name AS userScreenName, COUNT(rt) AS totalRetweets ORDER BY totalRetweets DESC RETURN userScreenName LIMIT 1;"
+            },
+            {
+            "NL_Question": "What is the total number of distinct tweets that contain mentions?",
+            "Cypher_Query": "MATCH (t:Tweet)-[:MENTIONS]->(:User) RETURN COUNT(DISTINCT t) AS totalMentionTweets;"
+            },
+            {
+            "NL_Question": "Find the screen name of the troll who has the highest number of followers.",
+            "Cypher_Query": "MATCH (t:Troll) WHERE t.followers_count <> \"null\" RETURN t.screen_name AS trollHandle ORDER BY t.followers_count DESC LIMIT 1;"
+            },
+            {
+            "NL_Question": "Retrieve the screen name of the user who received the most replies.",
+            "Cypher_Query": "MATCH (u:User)-[:POSTED]->(tw:Tweet)<-[:IN_REPLY_TO]-(reply:Tweet) WITH u.screen_name AS twitterHandle, COUNT(reply) AS totalReplies RETURN twitterHandle ORDER BY totalReplies DESC LIMIT 1;"
+            },
+            {
+            "NL_Question": "What is the average number of hashtags per tweet?",
+            "Cypher_Query": "MATCH (t:Tweet) OPTIONAL MATCH (t)-[:HAS_TAG]->(h:Hashtag) WITH t, COUNT(h) AS hashtagCount RETURN AVG(hashtagCount) AS avgHashtagsPerTweet;"
+            }
+        ]
+    },
+    "covid":{
+        "Simple_Retrieval": [
+            {
+            "NL_Question": "Retrieve all persons with a health status of \"Sick\" by returning their name, ID, and confirmed time.",
+            "Cypher_Query": "MATCH (p:Person) WHERE p.healthstatus = \"Sick\" RETURN p.name AS personName, p.id AS personId, p.confirmedtime AS confirmedTime;"
+            },
+            {
+            "NL_Question": "Retrieve all PART_OF relationships from places to regions, returning each place’s name and its corresponding region name.",
+            "Cypher_Query": "MATCH (p:Place)-[:PART_OF]->(r:Region) RETURN p.name AS placeName, r.name AS regionName;"
+            },
+            {
+            "NL_Question": "Retrieve all visits that lasted longer than 4 hours. Return each visit’s ID, duration (in hours), start time, and end time.",
+            "Cypher_Query": "MATCH (v:Visit) WHERE v.duration.hours > 4 RETURN v.id AS visitId, v.duration.hours AS durationHours, v.starttime AS startTime, v.endtime AS endTime;"
+            },
+            {
+            "NL_Question": "Retrieve all the visits performed by the person with the name \"Timothy Norton\". For each visit, return its ID, duration, start time, and end time.",
+            "Cypher_Query": "MATCH (p:Person {name:\"Timothy Norton\"})-[:PERFORMS_VISIT]->(v:Visit) RETURN v.id AS visitId, v.duration AS duration, v.starttime AS startTime, v.endtime AS endTime;"
+            },
+            {
+            "NL_Question": "Retrieve all persons who visited the place with ID \"24\". For each person, return their name, ID, health status, and confirmed time.",
+            "Cypher_Query": "MATCH (p:Person)-[:VISITS]->(pl:Place) WHERE pl.id = \"24\" RETURN p.name AS personName, p.id AS personId, p.healthstatus AS healthStatus, p.confirmedtime AS confirmedTime;"
+            },
+            {
+            "NL_Question": "Retrieve all regions along with their corresponding country and continent names. Return each region's name, the country name, and the continent name.",
+            "Cypher_Query": "MATCH (r:Region)-[:PART_OF]->(c:Country) MATCH (c)-[:PART_OF]->(con:Continent) RETURN r.name AS regionName, c.name AS countryName, con.name AS continentName;"
+            },
+            {
+            "NL_Question": "Retrieve the coordinates of all distinct places that were visited on April 12, 2020. For each place, return its name and home location coordinates.",
+            "Cypher_Query": "MATCH (v:Visit)-[:LOCATED_AT]->(pl:Place) WHERE date(v.starttime) = date(\"2020-04-12\") RETURN DISTINCT pl.name AS placeName, pl.homelocation AS coordinates;"
+            },
+            {
+            "NL_Question": "Retrieve all healthy people who visited the place with ID \"63\" on April 17, 2020, along with their residential address. For each person, return their name, ID, and address location.",
+            "Cypher_Query": "MATCH (p:Person)-[v:VISITS]->(pl:Place {id:\"63\"}) WHERE p.healthstatus = \"Healthy\" AND date(v.starttime) = date(\"2020-04-17\") RETURN p.name AS personName, p.id AS personId, p.addresslocation AS address;"
+            },
+            {
+            "NL_Question": "Retrieve all visits that occurred between April 14, 2020 and April 19, 2020. For each visit, return its ID, duration, start time, and end time.",
+            "Cypher_Query": "MATCH (v:Visit) WHERE v.starttime >= datetime(\"2020-04-14T00:00:00\") AND v.starttime <= datetime(\"2020-04-19T23:59:59\") RETURN v.id AS visitId, v.duration AS duration, v.starttime AS startTime, v.endtime AS endTime;"
+            },
+            {
+            "NL_Question": "Retrieve all places by returning their name, type, ID, and home location.",
+            "Cypher_Query": "MATCH (pl:Place) RETURN pl.name AS placeName, pl.type AS type, pl.id AS placeId, pl.homelocation AS homeLocation;"
+            }
+        ], 
+        "Complex_Retrieval": [
+            {
+            "NL_Question": "Retrieve all persons with a health status of \"Sick\" who visited places of type \"Hospital\". For each person, return their name, ID, and a collection of the hospital names they visited.",
+            "Cypher_Query": "MATCH (p:Person {healthstatus:\"Sick\"})-[:PERFORMS_VISIT]->(v:Visit)-[:LOCATED_AT]->(pl:Place) WHERE pl.type = \"Hospital\" RETURN p.name AS personName, p.id AS personId, COLLECT(DISTINCT pl.name) AS hospitalsVisited;"
+            },
+            {
+            "NL_Question": "Retrieve all persons who performed visits within 10 days after their confirmed infection time. For each such visit, return the person's name, ID, the place visited, and the visit start time.",
+            "Cypher_Query": "MATCH (p:Person)-[v:VISITS]->(pl:Place) WHERE p.confirmedtime IS NOT NULL AND v.starttime >= p.confirmedtime AND v.starttime <= p.confirmedtime + duration({days:10}) RETURN p.name AS personName, p.id AS personId, pl.name AS placeName, v.starttime AS visitStartTime;"
+            },
+            {
+            "NL_Question": "Retrieve a list of distinct \"Healthy\" individuals (their names and IDs) along with a collection of places where they were present at overlapping times with any \"Sick\" individual.",
+            "Cypher_Query": "MATCH (sick:Person {healthstatus: \"Sick\"})-[sv:VISITS]->(place:Place) MATCH (healthy:Person {healthstatus: \"Healthy\"})-[hv:VISITS]->(place) WHERE sv.starttime < hv.endtime AND hv.starttime < sv.endtime RETURN healthy.name AS name, healthy.id AS id, COLLECT(DISTINCT place.name) AS overlapping_places;"
+            },
+            {
+            "NL_Question": "Retrieve a list of distinct places that have been visited by at least 30 \"Sick\" individuals, along with the count of infected visitors for each place.",
+            "Cypher_Query": "MATCH (p:Person {healthstatus: \"Sick\"})-[:PERFORMS_VISIT]->(v:Visit)-[:LOCATED_AT]->(place:Place) WITH place, COUNT(DISTINCT p.id) AS infectedCount WHERE infectedCount >= 30 RETURN DISTINCT place.name AS placeName, infectedCount;"
+            },
+            {
+            "NL_Question": "For each person, determine which place they visited that is farthest from their residential location (using Euclidean distance). Return the person's name, the farthest visited place's name, and the farthest distance. The results should be ordered by the distance in descending order.",
+            "Cypher_Query": "MATCH (p:Person)-[:VISITS]->(pl:Place) WITH p, pl, point.distance(p.addresslocation, pl.homelocation) AS dist ORDER BY p.name, dist DESC WITH p, head(collect({pl: pl, dist: dist})) AS farthest RETURN p.name AS person, farthest.pl.name AS farthestVisitedPlace, farthest.dist AS distance ORDER BY farthest.dist DESC;"
+            },
+            {
+            "NL_Question": "Retrieve the names of people who visited at least five different places after being marked as \"Sick\" and also return the count of those places.",
+            "Cypher_Query": "MATCH (p:Person)-[v:VISITS]->(pl:Place) WHERE p.healthstatus = 'Sick' AND v.starttime > p.confirmedtime WITH p, count(DISTINCT pl) AS placesCount WHERE placesCount >= 5 RETURN p.name AS name, placesCount;"
+            },
+            {
+            "NL_Question": "For persons whose residential location falls within a specified spatial boundary, x between 51.21 and 51.22, y between 4.40 and 4.41 and who visited more than 5 unique places, retrieve their names along with the average duration (in seconds) of visits that lasted longer than 3 hours and the count of unique places visited.",
+            "Cypher_Query": "MATCH (p:Person)-[v:VISITS]->(pl:Place) WHERE p.addresslocation.x >= 51.21 AND p.addresslocation.x <= 51.22 AND p.addresslocation.y >= 4.40 AND p.addresslocation.y <= 4.41 AND v.duration.seconds > 10800 WITH p, count(DISTINCT pl) AS placeCount, avg(v.duration.seconds) AS avgDuration WHERE placeCount > 5 RETURN p.name AS PersonName, avgDuration, placeCount;"
+            },
+            {
+            "NL_Question": "Find the top 3 persons who spent the longest total duration visiting \"Mall\" located in the continent Europe, and return their names along with the total visit duration in seconds.",
+            "Cypher_Query": "MATCH (p:Person)-[v:VISITS]->(mall:Place {type: 'Mall'}) MATCH (mall)-[:PART_OF]->(:Region)-[:PART_OF]->(:Country)-[:PART_OF]->(cont:Continent {name: 'Europe'}) WITH p, sum(v.duration.seconds) AS totalDuration ORDER BY totalDuration DESC LIMIT 3 RETURN p.name AS PersonName, totalDuration;"
+            },
+            {
+            "NL_Question": "Identify persons who performed visits with a duration longer than 15 hours at places located in a country named \"Belgium\". For each matching visit, return the person's name, the visit ID, and the visit duration in seconds.",
+            "Cypher_Query": "MATCH (p:Person)-[v:VISITS]->(pl:Place) MATCH (pl)-[:PART_OF]->(:Region)-[:PART_OF]->(c:Country {name: 'Belgium'}) WHERE v.duration.seconds > 54000 RETURN p.name AS PersonName, v.id AS VisitID, v.duration.seconds AS DurationSeconds;"
+            }
+        ],
+        "Simple_Aggregation": [
+            {
+            "NL_Question": "What is the total number of visits recorded?",
+            "Cypher_Query": "MATCH (v:Visit) RETURN COUNT(v) AS totalVisits;"
+            },
+            {
+            "NL_Question": "What is the average duration (in seconds) of all visits recorded?",
+            "Cypher_Query": "MATCH (v:Visit) WHERE v.duration IS NOT NULL RETURN AVG(v.duration.seconds) AS avgVisitDurationSeconds;"
+            },
+            {
+            "NL_Question": "What is the average number of visits per person?",
+            "Cypher_Query": "MATCH (p:Person)-[:PERFORMS_VISIT]->(v:Visit) WITH p, COUNT(v) AS visitCount RETURN AVG(visitCount) AS avgVisitsPerPerson;"
+            },
+            {
+            "NL_Question": "For each region, what is the total number of places that belong to that region? Return the region name along with the count of places.",
+            "Cypher_Query": "MATCH (pl:Place)-[:PART_OF]->(r:Region) RETURN r.name AS regionName, COUNT(pl) AS totalPlaces ORDER BY totalPlaces DESC;"
+            },
+            {
+            "NL_Question": "What is the total number of distinct places visited by the person with name \"Bryant Nicholson\" on April 13, 2020? Return the count of places visited.",
+            "Cypher_Query": "MATCH (p:Person {name:\"Bryant Nicholson\"})-[v:VISITS]->(pl:Place) WHERE date(v.starttime) = date(\"2020-04-13\") RETURN COUNT(DISTINCT pl) AS totalPlacesVisited;"
+            },
+            {
+            "NL_Question": "Which are the top 5 busiest places based on the total number of visits? Return each place’s name, ID, and the count of visits.",
+            "Cypher_Query": "MATCH (v:Visit)-[:LOCATED_AT]->(pl:Place) RETURN pl.name AS placeName, pl.id AS placeId, COUNT(v) AS visitCount ORDER BY visitCount DESC LIMIT 5;"
+            },
+            {
+            "NL_Question": "What is the average number of visits per place?",
+            "Cypher_Query": "MATCH (pl:Place)<-[:LOCATED_AT]-(v:Visit) WITH pl, COUNT(v) AS visitCount RETURN AVG(visitCount) AS avgVisitsPerPlace;"
+            },
+            {
+            "NL_Question": "How many visits were performed between April 21, 2020 and April 24, 2020? Return the total number of visits.",
+            "Cypher_Query": "MATCH (v:Visit) WHERE date(v.starttime) >= date(\"2020-04-21\") AND date(v.starttime) <= date(\"2020-04-24\") RETURN COUNT(v) AS totalVisits;"
+            },
+            {
+            "NL_Question": "Which place is located farthest to the north based on its homelocation? Return the place’s name, ID, and its home coordinates.",
+            "Cypher_Query": "MATCH (pl:Place) WITH pl, pl.homelocation.y AS yCoordinate ORDER BY yCoordinate DESC LIMIT 1 RETURN pl.name AS placeName, pl.id AS placeId, pl.homelocation AS homeLocation;"
+            },
+            {
+            "NL_Question": "Retrieve the top 5 people who recorded the highest total number of visits. For each person, return their name, ID, and the total count of visits.",
+            "Cypher_Query": "MATCH (p:Person)-[:PERFORMS_VISIT]->(v:Visit) WITH p, COUNT(v) AS totalVisits RETURN p.name AS personName, p.id AS personId, totalVisits ORDER BY totalVisits DESC LIMIT 5;"
+            }
+        ],
+        "Complex_Aggregation": [
+            {
+            "NL_Question": "For each place of type \"Restaurant\", retrieve the total number of visits and the percentage of those visits made by persons with a health status of \"Sick\". Return the place name, total visit count, and infected visit percentage.",
+            "Cypher_Query": "MATCH (v:Visit)-[:LOCATED_AT]->(pl:Place) WHERE pl.type = \"Restaurant\" WITH pl, COUNT(v) AS totalVisits MATCH (p:Person)-[:PERFORMS_VISIT]->(v2:Visit)-[:LOCATED_AT]->(pl) WHERE p.healthstatus = \"Sick\" WITH pl, totalVisits, COUNT(v2) AS infectedVisits RETURN pl.name AS placeName, totalVisits, toFloat(infectedVisits)/totalVisits AS infectedPercentage;"
+            },
+            {
+            "NL_Question": "Retrieve the top 5 persons who performed the most visits, along with the total number of visits and the average visit duration (in seconds) for each. Return the person's name, ID, total visits, and average duration.",
+            "Cypher_Query": "MATCH (p:Person)-[:PERFORMS_VISIT]->(v:Visit) WHERE v.duration.seconds IS NOT NULL WITH p, COUNT(v) AS totalVisits, AVG(v.duration.seconds) AS avgDuration RETURN p.name AS personName, p.id AS personId, totalVisits, avgDuration ORDER BY totalVisits DESC LIMIT 5;"
+            },
+            {
+            "NL_Question": "For each type of place, retrieve the total number of visits and the average duration (in seconds) of those visits. Return the place type, total visit count, and average duration.",
+            "Cypher_Query": "MATCH (v:Visit)-[:LOCATED_AT]->(pl:Place) WHERE v.duration.seconds IS NOT NULL WITH pl.type AS placeType, COUNT(v) AS totalVisits, AVG(v.duration.seconds) AS avgDuration RETURN placeType, totalVisits, avgDuration;"
+            },
+            {
+            "NL_Question": "For each continent, compute the average visit duration (in seconds) for every combination of person health status and place type. Return the continent's name, health status, place type, and average duration.",
+            "Cypher_Query": "MATCH (p:Person)-[v:VISITS]->(pl:Place) MATCH (pl)-[:PART_OF]->(:Region)-[:PART_OF]->(:Country)-[:PART_OF]->(cont:Continent) WITH cont.name AS continent, p.healthstatus AS healthStatus, pl.type AS placeType, avg(v.duration.seconds) AS avgDuration RETURN continent, healthStatus, placeType, avgDuration ORDER BY continent, healthStatus, placeType;"
+            },
+            {
+            "NL_Question": "For each person, calculate the total number of visits they performed and the average duration (in seconds) of those visits. Then, group these results by the person’s health status. Return the health status, average number of visits per person, and average visit duration.",
+            "Cypher_Query": "MATCH (p:Person)-[:PERFORMS_VISIT]->(v:Visit) WHERE v.duration.seconds IS NOT NULL WITH p, p.healthstatus AS healthStatus, COUNT(v) AS visitCount, AVG(v.duration.seconds) AS avgDuration WITH healthStatus, AVG(visitCount) AS avgVisitsPerPerson, AVG(avgDuration) AS avgDurationPerPerson RETURN healthStatus, avgVisitsPerPerson, avgDurationPerPerson;"
+            },
+            {
+            "NL_Question": "For each country and for each type of place, compute the minimum, maximum, and average visit duration (in seconds). Return the country name, place type, minimum duration, maximum duration, and average duration.",
+            "Cypher_Query": "MATCH (p:Person)-[v:VISITS]->(pl:Place) MATCH (pl)-[:PART_OF]->(:Region)-[:PART_OF]->(c:Country) WITH c.name AS country, pl.type AS placeType, min(v.duration.seconds) AS minDuration, max(v.duration.seconds) AS maxDuration, avg(v.duration.seconds) AS avgDuration RETURN country, placeType, minDuration, maxDuration, avgDuration ORDER BY country, placeType;"
+            },
+            {
+            "NL_Question": "For \"Sick\" persons, calculate the total number of visits they performed before their confirmed time, then return the overall average number of pre-confirmation visits among these persons.",
+            "Cypher_Query": "MATCH (p:Person {healthstatus:\"Sick\"})-[:PERFORMS_VISIT]->(v:Visit) WHERE v.starttime < p.confirmedtime WITH p, COUNT(v) AS preVisits RETURN AVG(preVisits) AS avgPreConfirmationVisits;"
+            },
+            {
+            "NL_Question": "For each region, group persons by their health status and compute the average total number of visits and the average number of distinct places visited. Return the region, health status, average visit count, and average distinct places count.",
+            "Cypher_Query": "MATCH (p:Person)-[v:VISITS]->(pl:Place) MATCH (pl)-[:PART_OF]->(r:Region) WITH r.name AS region, p.healthstatus AS healthStatus, p, count(v) AS totalVisits, count(DISTINCT pl) AS distinctPlaces WITH region, healthStatus, avg(totalVisits) AS avgTotalVisits, avg(distinctPlaces) AS avgDistinctPlaces RETURN region, healthStatus, avgTotalVisits, avgDistinctPlaces ORDER BY region, healthStatus;"
+            },
+            {
+            "NL_Question": "For each country, compute the ratio of visits made by \"Sick\" persons to the total number of visits. Return the country name and the infection visit ratio (as a percentage).",
+            "Cypher_Query": "MATCH (p:Person)-[:PERFORMS_VISIT]->(v:Visit) MATCH (p)-[:VISITS]->(pl:Place)-[:PART_OF]->(:Region)-[:PART_OF]->(c:Country) WITH c, COUNT(v) AS totalVisits, COUNT(CASE WHEN p.healthstatus = \"Sick\" THEN v ELSE NULL END) AS infectedVisits RETURN c.name AS countryName, toFloat(infectedVisits)/totalVisits * 100 AS infectionVisitPercentage;"
+            },
+            {
+            "NL_Question": "For each region, calculate the total number of persons who visited places in that region and the average number of visits per person in that region. Return the region name, total visitor count, and average visits per person.",
+            "Cypher_Query": "MATCH (p:Person)-[:VISITS]->(pl:Place)-[:PART_OF]->(r:Region) WITH r, p, COUNT(pl) AS visitsCount WITH r, COUNT(DISTINCT p) AS totalVisitors, AVG(visitsCount) AS avgVisitsPerPerson RETURN r.name AS regionName, totalVisitors, avgVisitsPerPerson;"
+            }
+        ],
+        "Evaluation_query": [
+            {
+            "NL_Question": "For each \"Sick\" person, determine the time span in days between their first and last visit, and then calculate the overall average time span for these persons. Return the average time span in days.",
+            "Cypher_Query": "MATCH (p:Person {healthstatus:\"Sick\"})-[:PERFORMS_VISIT]->(v:Visit) WITH p, MIN(v.starttime) AS firstVisit, MAX(v.starttime) AS lastVisit RETURN AVG(duration.inDays(firstVisit, lastVisit).days) AS avgTimeSpanDays;"
+            },
+            {
+            "NL_Question": "What is the health status of the person named \"Juliana Wade\"?",
+            "Cypher_Query": "MATCH (p:Person {name:\"Juliana Wade\"}) RETURN p.healthstatus AS healthStatus;"
+            },
+            {
+            "NL_Question": "What is the end time of the visit with the longest duration performed by the person with ID \"3\"?",
+            "Cypher_Query": "MATCH (p:Person {id:\"3\"})-[:PERFORMS_VISIT]->(v:Visit) WHERE v.duration.seconds IS NOT NULL RETURN v.endtime AS visitEndTime ORDER BY v.duration.seconds DESC LIMIT 1;"
+            },
+            {
+            "NL_Question": "Retrieve the name of the person with health status \"Sick\" who has the earliest confirmed time.",
+            "Cypher_Query": "MATCH (p:Person {healthstatus:\"Sick\"}) RETURN p.name AS earliestInfectedPerson ORDER BY p.confirmedtime ASC LIMIT 1;"
+            },
+            {
+            "NL_Question": "Retrieve the \"ID\" of the person who has performed the most visits.",
+            "Cypher_Query": "MATCH (p:Person)-[:PERFORMS_VISIT]->(v:Visit) WITH p, count(v) AS visitCount RETURN p.id AS topPerformerID ORDER BY visitCount DESC LIMIT 1;"
+            },
+            {
+            "NL_Question": "Retrieve the name of the place that was visited first according to the recorded visit start times.",
+            "Cypher_Query": "MATCH (p:Person)-[v:VISITS]->(pl:Place) RETURN pl.name AS earliestVisitedPlace ORDER BY v.starttime ASC LIMIT 1;"
+            },
+            {
+            "NL_Question": "Retrieve the address location (Point) of the person with health status \"Sick\" who has the most recent confirmed time.",
+            "Cypher_Query": "MATCH (p:Person {healthstatus:\"Sick\"}) RETURN p.addresslocation AS latestSickAddress ORDER BY p.confirmedtime DESC LIMIT 1;"
+            },
+            {
+            "NL_Question": "Retrieve the type of place that has received the most VISITS overall.",
+            "Cypher_Query": "MATCH (p:Person)-[v:VISITS]->(pl:Place) WITH pl.type AS placeType, count(v) AS visitsCount RETURN placeType AS mostVisitedPlaceType ORDER BY visitsCount DESC LIMIT 1;"
+            },
+            {
+            "NL_Question": "Retrieve the name of the continent that contains the highest number of countries.",
+            "Cypher_Query": "MATCH (c:Country)-[:PART_OF]->(cont:Continent) WITH cont, count(c) AS countryCount RETURN cont.name AS topContinentName ORDER BY countryCount DESC LIMIT 1;"
+            },
+            {
+            "NL_Question": "Retrieve the name of the Restaurant (a Place with type \"Restaurant\") that has received the highest number of visits.",
+            "Cypher_Query": "MATCH (p:Person)-[v:VISITS]->(pl:Place {type:\"Restaurant\"}) WITH pl, count(v) AS visitsCount RETURN pl.name AS topRestaurant ORDER BY visitsCount DESC LIMIT 1;"
+            }
+        ]
+    }
+}
