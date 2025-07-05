@@ -1,0 +1,26 @@
+[
+  {
+    "NL Question": "What is the average 'max_atmosphering_speed' of vehicles that appeared in films with 'episode_id:long' equal to 3?",
+    "Cypher": "MATCH (f:Film {`episode_id:long`: '3'})<-[:APPEARED_IN]-(v:Vehicle) WHERE v.max_atmosphering_speed <> 'unknown' WITH toFloat(v.max_atmosphering_speed) AS maxSpeed RETURN avg(maxSpeed) AS AverageMaxSpeed",
+    "source_dataset": "star_wars",
+    "source_chunk": "data_3_1_2_6",
+    "original_file": "Complex_Aggregation.json",
+    "original_index": 522,
+    "unique_id": "star_wars_data_3_1_2_6_Complex_Aggregation_522",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Malformed inline property: ``` in node `Film`.\n❌ Malformed inline property: ``: '3'` in node `Film`.\n❌ Inline property `episode_id` not in node `Film`.",
+    "schema_validation": "❌ Malformed inline property: ``` in node `Film`.\n❌ Malformed inline property: ``: '3'` in node `Film`.\n❌ Inline property `episode_id` not in node `Film`."
+  },
+  {
+    "NL Question": "What is the average number of films in which species originating from planets with 'temperate' climate have appeared?",
+    "Cypher": "MATCH (p:Planet) WHERE p.climate CONTAINS 'temperate' WITH p MATCH (s:Species)-[:HOMEWORLD]->(p) WITH s MATCH (s)-[:APPEARED_IN]->(f:Film) RETURN avg(toFloat(f.episode_id:long)) AS averageNumberOfFilms",
+    "source_dataset": "star_wars",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Complex_Aggregation.json",
+    "original_index": 123,
+    "unique_id": "star_wars_data_3_2_2_6_Complex_Aggregation_123",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `episode_id` does not exist in node `Film`.",
+    "schema_validation": "❌ Attribute `episode_id` does not exist in node `Film`."
+  }
+]

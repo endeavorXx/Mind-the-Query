@@ -1,0 +1,6 @@
+=== OVERALL DATASET STATS for ER ===
+Total Queries: 3197
+Schema Validator: (3190, 3197) - 99.8% passed
+Runtime Validator: (2875, 3190) - 90.1% passed
+Value Validator: (2846, 2875) - 99.0% passed
+All Passed Queries: 2846

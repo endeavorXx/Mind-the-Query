@@ -1,0 +1,14 @@
+[
+  {
+    "NL Question": "For each team that participated in the 'China 2007' tournament, calculate the total number of matches played and the average score they achieved in those matches. Return the team's name, total matches played, and average score.",
+    "Cypher": "MATCH (t:Team)-[r:PARTICIPATED_IN]->(tour:Tournament {name: 'China 2007'})-[<-:IN_TOURNAMENT]-(m:Match) WHERE r.score IS NOT NULL WITH t, COUNT(m) AS totalMatches, AVG(toInt(r.score)) AS avgScore RETURN t.name AS teamName, totalMatches, avgScore",
+    "source_dataset": "wwc",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Complex_Aggregation.json",
+    "original_index": 116,
+    "unique_id": "wwc_data_3_2_2_6_Complex_Aggregation_116",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `score` not in relationship `PARTICIPATED_IN`.\n❌ Attribute `score` not in relationship `PARTICIPATED_IN`.",
+    "schema_validation": "❌ Attribute `score` not in relationship `PARTICIPATED_IN`.\n❌ Attribute `score` not in relationship `PARTICIPATED_IN`."
+  }
+]

@@ -1,0 +1,21 @@
+[
+  {
+    "NL Question": "What is the title of the movie that User with userId 105 watched?",
+    "Cypher": "MATCH (u:User {userId: 105})-[:WATCHED]->(m:Movie) RETURN m.title AS movieTitle;",
+    "source_dataset": "er",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 367,
+    "unique_id": "er_data_3_2_2_6_Evaluation_query_367",
+    "pipeline_stage": "FAILED_RUNTIME",
+    "schema_validation": "✅ Query is valid according to schema!",
+    "failure_reason": "",
+    "runtime_validation": "Failed",
+    "neo4j_runtime_validation": "No runtime errors.",
+    "neo4j_runtime_passed": 1,
+    "neo4j_result_validation": "No results returned.",
+    "neo4j_result_passed": 0,
+    "content_validation": "No results returned.",
+    "content_passed": 1
+  }
+]

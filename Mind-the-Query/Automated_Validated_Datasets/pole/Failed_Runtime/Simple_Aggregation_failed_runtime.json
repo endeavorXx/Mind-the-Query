@@ -1,0 +1,17 @@
+[
+  {
+    "NL Question": "What is the total call duration of all phone calls recorded?",
+    "Cypher": "MATCH (pc:PhoneCall) WHERE pc.call_duration IS NOT NULL RETURN SUM(toInt(pc.call_duration)) AS TotalCallDuration",
+    "source_dataset": "pole",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Simple_Aggregation.json",
+    "original_index": 381,
+    "unique_id": "pole_data_3_2_2_6_Simple_Aggregation_381",
+    "pipeline_stage": "FAILED_RUNTIME",
+    "schema_validation": "✅ Query is valid according to schema!",
+    "failure_reason": "Cypher Syntax Error: Generated Cypher Statement is not valid\n{code: Neo.ClientError.Statement.SyntaxError} {message: Unknown function 'toInt' (line 1, column 68 (offset: 67))\n\"MATCH (pc:PhoneCall) WHERE pc.call_duration IS NOT NULL RETURN SUM(toInt(pc.call_duration)) AS TotalCallDuration\"\n                                                                    ^}",
+    "runtime_validation": "Failed",
+    "content_validation": "Not applicable - runtime failed",
+    "content_passed": 0
+  }
+]

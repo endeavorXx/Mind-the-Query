@@ -1,0 +1,6 @@
+=== OVERALL DATASET STATS for GDSC ===
+Total Queries: 2762
+Schema Validator: (2759, 2762) - 99.9% passed
+Runtime Validator: (2281, 2759) - 82.7% passed
+Value Validator: (2236, 2281) - 98.0% passed
+All Passed Queries: 2236

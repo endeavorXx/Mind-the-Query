@@ -1,0 +1,6 @@
+=== OVERALL DATASET STATS for COVID ===
+Total Queries: 2825
+Schema Validator: (2819, 2825) - 99.8% passed
+Runtime Validator: (2454, 2819) - 87.1% passed
+Value Validator: (2437, 2454) - 99.3% passed
+All Passed Queries: 2437

@@ -1,0 +1,18 @@
+[
+  {
+    "NL Question": "For each outcome, determine the total number of cases where the primary suspect drug was 'POTASSIUM' and the reporter occupation was 'Consumer'.",
+    "Cypher": "MATCH (c:Case)-[:IS_PRIMARY_SUSPECT]->(d:Drug {name: 'POTASSIUM'}), (c)-[:RESULTED_IN]->(o:Outcome), (c)-[:REPORTED_BY]->(rs:ReportSource {name: 'Company Representative'}) WHERE c.reporterOccupation = 'Consumer' RETURN o.outcome AS outcome, COUNT(c) AS totalCases",
+    "source_dataset": "healthcare",
+    "source_chunk": "data_3_1_2_6",
+    "original_file": "Complex_Aggregation.json",
+    "original_index": 540,
+    "unique_id": "healthcare_data_3_1_2_6_Complex_Aggregation_540",
+    "pipeline_stage": "FAILED_VALUE",
+    "schema_validation": "✅ Query is valid according to schema!",
+    "runtime_validation": "Passed",
+    "content_validation": "No results returned.",
+    "content_passed": 1,
+    "failure_reason": "❌ Value 'Company Representative' for property 'name' not found in the NL question.",
+    "value_validation": "❌ Value 'Company Representative' for property 'name' not found in the NL question."
+  }
+]

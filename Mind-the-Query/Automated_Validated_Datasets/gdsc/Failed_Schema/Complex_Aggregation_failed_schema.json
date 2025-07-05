@@ -1,0 +1,14 @@
+[
+  {
+    "NL Question": "For each region, calculate the average pageRank of locations within it and the total number of battles fought in those locations. Show the region name, average location pageRank, and total battle count.",
+    "Cypher": "MATCH (l:Location)-[:IS_IN]->(r:Region) WITH r, AVG(l.pageRank) AS avgLocationRank MATCH (b:Battle)-[:IS_IN]->(l) WITH r, avgLocationRank, COUNT(b) AS battleCount RETURN r.name, avgLocationRank, battleCount",
+    "source_dataset": "gdsc",
+    "source_chunk": "data_3_1_2_6",
+    "original_file": "Complex_Aggregation.json",
+    "original_index": 305,
+    "unique_id": "gdsc_data_3_1_2_6_Complex_Aggregation_305",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `pageRank` does not exist in node `Location`.",
+    "schema_validation": "❌ Attribute `pageRank` does not exist in node `Location`."
+  }
+]

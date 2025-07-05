@@ -1,0 +1,6 @@
+=== OVERALL DATASET STATS for LEGIS_GRAPH ===
+Total Queries: 3333
+Schema Validator: (3318, 3333) - 99.5% passed
+Runtime Validator: (2915, 3318) - 87.9% passed
+Value Validator: (2878, 2915) - 98.7% passed
+All Passed Queries: 2878

@@ -1,0 +1,26 @@
+[
+  {
+    "NL Question": "How many OSMWay nodes are connected to OSMNode nodes?",
+    "Cypher": "MATCH (w:OSMWay)-[:FIRST_NODE]->(wn:OSMWayNode)-[:NODE]->(n:OSMNode) RETURN count(DISTINCT w) AS NumberOfOSMWaysConnectedToOSMNodes;",
+    "source_dataset": "osm",
+    "source_chunk": "data_3_1_2_6",
+    "original_file": "Simple_Aggregation.json",
+    "original_index": 24,
+    "unique_id": "osm_data_3_1_2_6_Simple_Aggregation_24",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Node label `OSMWayNode` is not in the schema.",
+    "schema_validation": "❌ Node label `OSMWayNode` is not in the schema."
+  },
+  {
+    "NL Question": "How many OSMTags nodes have the property 'playground' set to 'swing'?",
+    "Cypher": "MATCH (t:OSMTags) WHERE t.playground = 'swing' RETURN COUNT(t) AS TagCount;",
+    "source_dataset": "osm",
+    "source_chunk": "data_3_3_2_6",
+    "original_file": "Simple_Aggregation.json",
+    "original_index": 820,
+    "unique_id": "osm_data_3_3_2_6_Simple_Aggregation_820",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `playground` does not exist in node `OSMTags`.",
+    "schema_validation": "❌ Attribute `playground` does not exist in node `OSMTags`."
+  }
+]

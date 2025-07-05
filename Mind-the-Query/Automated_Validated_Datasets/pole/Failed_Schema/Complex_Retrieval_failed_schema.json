@@ -1,0 +1,62 @@
+[
+  {
+    "NL Question": "Retrieve the names of all Officers who investigated crimes that occurred at locations with a postcode starting with 'M', and also return the distinct area codes associated with those locations.",
+    "Cypher": "MATCH (o:Officer)-[:INVESTIGATED_BY]->(c:Crime)-[:OCCURRED_AT]->(l:Location)-[:HAS_POSTCODE]->(pc:PostCode) WHERE pc.code STARTS WITH 'M' RETURN o.name AS OfficerName, COLLECT(DISTINCT l.areaCode) AS AreaCodes",
+    "source_dataset": "pole",
+    "source_chunk": "data_3_1_2_6",
+    "original_file": "Complex_Retrieval.json",
+    "original_index": 211,
+    "unique_id": "pole_data_3_1_2_6_Complex_Retrieval_211",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `areaCode` does not exist in node `Location`.",
+    "schema_validation": "❌ Attribute `areaCode` does not exist in node `Location`."
+  },
+  {
+    "NL Question": "List the names of people who know each other, and for each pair, find the number of phone calls made to the phone numbers they know.",
+    "Cypher": "MATCH (p1:Person)-[:KNOWS]->(p2:Person) MATCH (p1)-[:KNOWS_PHONE]->(p1_phone:Person) MATCH (p2)-[:KNOWS_PHONE]->(p2_phone:Person) MATCH (pc:PhoneCall)-[:CALLED]->(p1_phone_num:Phone) WHERE p1_phone_num.phoneNo = p1_phone.phoneNo WITH p1, p2, count(pc) AS callCount RETURN p1.name, p2.name, callCount",
+    "source_dataset": "pole",
+    "source_chunk": "data_3_1_2_6",
+    "original_file": "Complex_Retrieval.json",
+    "original_index": 367,
+    "unique_id": "pole_data_3_1_2_6_Complex_Retrieval_367",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `phoneNo` does not exist in node `Person`.",
+    "schema_validation": "❌ Attribute `phoneNo` does not exist in node `Person`."
+  },
+  {
+    "NL Question": "Retrieve the names and phone numbers of all persons who know someone who has a phone number '0-(000)061-7690'.",
+    "Cypher": "MATCH (p1:Person)-[:KNOWS]->(p2:Person)-[:HAS_PHONE]->(ph:Phone {phoneNo: '0-(000)061-7690'}) RETURN p1.name, p2.phoneNo",
+    "source_dataset": "pole",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Complex_Retrieval.json",
+    "original_index": 43,
+    "unique_id": "pole_data_3_2_2_6_Complex_Retrieval_43",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `phoneNo` does not exist in node `Person`.",
+    "schema_validation": "❌ Attribute `phoneNo` does not exist in node `Person`."
+  },
+  {
+    "NL Question": "Find all people who know someone who has an email address 'lboydds@paypal.com', and return the names and email addresses of those people who know them.",
+    "Cypher": "MATCH (p1:Person)-[:KNOWS]->(p2:Person)-[:HAS_EMAIL]->(e:Email {email_address: 'lboydds@paypal.com'}) RETURN p1.name, p1.email_address",
+    "source_dataset": "pole",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Complex_Retrieval.json",
+    "original_index": 359,
+    "unique_id": "pole_data_3_2_2_6_Complex_Retrieval_359",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `email_address` does not exist in node `Person`.",
+    "schema_validation": "❌ Attribute `email_address` does not exist in node `Person`."
+  },
+  {
+    "NL Question": "Retrieve the names and email addresses of persons who made phone calls to phone numbers that were also called by other people, and list the date of the call.",
+    "Cypher": "MATCH (pc1:PhoneCall)-[:CALLED]->(ph:Phone)<-[:CALLED]-(pc2:PhoneCall) MATCH (p:Person)-[:HAS_PHONE]->(ph2:Phone)<-[:CALLER]-(pc1) RETURN p.name, p.surname, p.email_address, pc1.call_date",
+    "source_dataset": "pole",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Complex_Retrieval.json",
+    "original_index": 542,
+    "unique_id": "pole_data_3_2_2_6_Complex_Retrieval_542",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `email_address` does not exist in node `Person`.",
+    "schema_validation": "❌ Attribute `email_address` does not exist in node `Person`."
+  }
+]

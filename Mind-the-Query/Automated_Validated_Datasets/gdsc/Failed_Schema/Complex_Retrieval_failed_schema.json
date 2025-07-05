@@ -1,0 +1,26 @@
+[
+  {
+    "NL Question": "Find all persons who appeared in the book 'Clash of kings' and also belong to House Ambrose, returning their names and statuses.",
+    "Cypher": "MATCH (p:Person)-[:APPEARED_IN]->(b:Book {name: 'Clash of kings'}) WITH p MATCH (p)-[:BELONGS_TO]->(h:House {name: 'Ambrose'}) RETURN p.name, p.status",
+    "source_dataset": "gdsc",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Complex_Retrieval.json",
+    "original_index": 389,
+    "unique_id": "gdsc_data_3_2_2_6_Complex_Retrieval_389",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `status` does not exist in node `Person`.",
+    "schema_validation": "❌ Attribute `status` does not exist in node `Person`."
+  },
+  {
+    "NL Question": "Find the names of all Kings who died in book 1 and were involved in a battle where the outcome for the attacker was a 'win'.",
+    "Cypher": "MATCH (k:King)-[:DIED_IN]->(b:Book {name: 'Book 1'}) MATCH (k)-[:ATTACKER_KING]->(battle:Battle) WHERE battle.outcome = 'win' RETURN k.name",
+    "source_dataset": "gdsc",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Complex_Retrieval.json",
+    "original_index": 499,
+    "unique_id": "gdsc_data_3_2_2_6_Complex_Retrieval_499",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `outcome` does not exist in node `Battle`.",
+    "schema_validation": "❌ Attribute `outcome` does not exist in node `Battle`."
+  }
+]

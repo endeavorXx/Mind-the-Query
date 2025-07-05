@@ -1,0 +1,21 @@
+[
+  {
+    "NL Question": "What is the title of the film in which the planet Ojom appeared?",
+    "Cypher": "MATCH (p:Planet {name: 'Ojom'})-[:APPEARED_IN]->(f:Film) RETURN f.title AS FilmTitle;",
+    "source_dataset": "star_wars",
+    "source_chunk": "data_3_1_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 444,
+    "unique_id": "star_wars_data_3_1_2_6_Evaluation_query_444",
+    "pipeline_stage": "FAILED_RUNTIME",
+    "schema_validation": "✅ Query is valid according to schema!",
+    "failure_reason": "",
+    "runtime_validation": "Failed",
+    "neo4j_runtime_validation": "No runtime errors.",
+    "neo4j_runtime_passed": 1,
+    "neo4j_result_validation": "No results returned.",
+    "neo4j_result_passed": 0,
+    "content_validation": "No results returned.",
+    "content_passed": 1
+  }
+]

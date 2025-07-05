@@ -1,0 +1,17 @@
+[
+  {
+    "NL Question": "Retrieve the email address of the user with the first name 'Jewel' and last name 'Conybear'.",
+    "Cypher": "MATCH (u:User {firstName: 'Jewel', lastName: 'Conybear'}) RETURN u.email AS Email;",
+    "source_dataset": "er",
+    "source_chunk": "data_3_1_2_6",
+    "original_file": "Simple_Retrieval.json",
+    "original_index": 0,
+    "unique_id": "er_data_3_1_2_6_Simple_Retrieval_0",
+    "pipeline_stage": "FAILED_RUNTIME",
+    "schema_validation": "✅ Query is valid according to schema!",
+    "failure_reason": "Runtime Error: Failed to read from defunct connection IPv4Address(('localhost', 7687)) (ResolvedIPv4Address(('127.0.0.1', 7687)))",
+    "runtime_validation": "Failed",
+    "content_validation": "Not applicable - runtime failed",
+    "content_passed": 0
+  }
+]

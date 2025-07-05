@@ -1,0 +1,74 @@
+[
+  {
+    "NL Question": "For each type of vehicle, what is the average number of crimes they have been involved in and the average call duration of phone calls made by people who are party to those crimes?",
+    "Cypher": "MATCH (v:Vehicle)-[:INVOLVED_IN]->(c:Crime) WITH v.type AS vehicleType, c MATCH (p:Person)-[:PARTY_TO]->(c) MATCH (p)-[:HAS_PHONE]->(ph:Phone)<-[:CALLED]-(pc:PhoneCall) WITH vehicleType, count(c) AS crimeCount, AVG(toFloat(pc.call_duration)) AS avgCallDuration RETURN vehicleType, AVG(crimeCount), avgCallDuration",
+    "source_dataset": "pole",
+    "source_chunk": "data_3_1_2_6",
+    "original_file": "Complex_Aggregation.json",
+    "original_index": 4,
+    "unique_id": "pole_data_3_1_2_6_Complex_Aggregation_4",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `type` does not exist in node `Vehicle`.",
+    "schema_validation": "❌ Attribute `type` does not exist in node `Vehicle`."
+  },
+  {
+    "NL Question": "For each type of vehicle, what is the average number of crimes they are involved in, and what is the average age of people involved in those crimes?",
+    "Cypher": "MATCH (v:Vehicle)-[:INVOLVED_IN]->(c:Crime) WITH v.type AS vehicleType, c MATCH (c)<-[:PARTY_TO]-(p:Person) WITH vehicleType, COUNT(DISTINCT c) AS crimeCount, p.age AS personAge RETURN vehicleType, AVG(crimeCount) AS avgCrimes, AVG(toInteger(personAge)) AS avgAge",
+    "source_dataset": "pole",
+    "source_chunk": "data_3_1_2_6",
+    "original_file": "Complex_Aggregation.json",
+    "original_index": 108,
+    "unique_id": "pole_data_3_1_2_6_Complex_Aggregation_108",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `type` does not exist in node `Vehicle`.",
+    "schema_validation": "❌ Attribute `type` does not exist in node `Vehicle`."
+  },
+  {
+    "NL Question": "For each area, what is the average number of crimes reported and the average call duration of phone calls made to phones within that area?",
+    "Cypher": "MATCH (l:Location)-[:LOCATION_IN_AREA]->(a:Area)<-[:OCCURRED_AT]-(c:Crime) WITH a.areaCode AS areaCode, COUNT(DISTINCT c) AS crimeCount MATCH (ph:Phone)<-[:CALLED]-(pc:PhoneCall), (l:Location)-[:LOCATION_IN_AREA]->(a:Area)<-[:HAS_POSTCODE]-(p:PostCode) WHERE ph.phoneNo = pc.CALLER WITH areaCode, crimeCount, AVG(toFloat(pc.call_duration)) AS avgCallDuration RETURN areaCode, AVG(crimeCount) AS avgCrimes, avgCallDuration",
+    "source_dataset": "pole",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Complex_Aggregation.json",
+    "original_index": 29,
+    "unique_id": "pole_data_3_2_2_6_Complex_Aggregation_29",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `CALLER` does not exist in node `PhoneCall`.",
+    "schema_validation": "❌ Attribute `CALLER` does not exist in node `PhoneCall`."
+  },
+  {
+    "NL Question": "For each person, calculate the total number of crimes they are party to and the average age of the officers investigating those crimes.",
+    "Cypher": "MATCH (p:Person)-[:PARTY_TO]->(c:Crime)-[:INVESTIGATED_BY]->(o:Officer) WITH p.nhs_no AS personNHS, COUNT(DISTINCT c) AS crimeCount, o.age AS officerAge RETURN personNHS, crimeCount, AVG(toFloat(officerAge)) AS avgOfficerAge",
+    "source_dataset": "pole",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Complex_Aggregation.json",
+    "original_index": 30,
+    "unique_id": "pole_data_3_2_2_6_Complex_Aggregation_30",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `age` does not exist in node `Officer`.",
+    "schema_validation": "❌ Attribute `age` does not exist in node `Officer`."
+  },
+  {
+    "NL Question": "For each crime type, determine the total number of crimes and the average number of officers investigating crimes of that type where the crime occurred at a location with a specific postcode 'M30 0EW'.",
+    "Cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(l:Location {postcode: 'M30 0EW'}) WITH c MATCH (c)<-[:INVESTIGATED_BY]-(o:Officer) WITH c, COUNT(o) AS officerCount MATCH (cr:Crime {type: c.type}) WITH cr, officerCount RETURN cr.type, COUNT(cr), AVG(officerCount)",
+    "source_dataset": "pole",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Complex_Aggregation.json",
+    "original_index": 165,
+    "unique_id": "pole_data_3_2_2_6_Complex_Aggregation_165",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Malformed inline property: `.type` in node `Crime`.",
+    "schema_validation": "❌ Malformed inline property: `.type` in node `Crime`."
+  },
+  {
+    "NL Question": "For each type of vehicle involved in crimes, what is the average number of crimes each vehicle of that type is involved in, and what is the average number of objects involved in those crimes?",
+    "Cypher": "MATCH (v:Vehicle)-[:INVOLVED_IN]->(c:Crime) WITH v.type AS vehicleType, COUNT(DISTINCT c) AS numCrimes MATCH (v2:Vehicle)-[:INVOLVED_IN]->(c2:Crime)-[:INVOLVED_IN]->(o:Object) WHERE v2.type = vehicleType WITH vehicleType, numCrimes, COUNT(DISTINCT o) AS numObjects RETURN vehicleType, AVG(toFloat(numCrimes)) AS avgCrimes, AVG(toFloat(numObjects)) AS avgObjects",
+    "source_dataset": "pole",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Complex_Aggregation.json",
+    "original_index": 179,
+    "unique_id": "pole_data_3_2_2_6_Complex_Aggregation_179",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `type` does not exist in node `Vehicle`.\n❌ Attribute `type` does not exist in node `Vehicle`.",
+    "schema_validation": "❌ Attribute `type` does not exist in node `Vehicle`.\n❌ Attribute `type` does not exist in node `Vehicle`."
+  }
+]

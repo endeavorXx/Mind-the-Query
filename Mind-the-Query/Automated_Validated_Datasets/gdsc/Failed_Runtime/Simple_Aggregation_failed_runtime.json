@@ -1,0 +1,36 @@
+[
+  {
+    "NL Question": "What is the average age of all people whose age is recorded?",
+    "Cypher": "MATCH (n) WHERE n:Person OR n:Knight OR n:Dead WHERE n.age IS NOT NULL RETURN AVG(n.age) AS averageAge",
+    "source_dataset": "gdsc",
+    "source_chunk": "data_3_1_2_6",
+    "original_file": "Simple_Aggregation.json",
+    "original_index": 466,
+    "unique_id": "gdsc_data_3_1_2_6_Simple_Aggregation_466",
+    "pipeline_stage": "FAILED_RUNTIME",
+    "schema_validation": "✅ Query is valid according to schema!",
+    "failure_reason": "Cypher Syntax Error: Generated Cypher Statement is not valid\n{code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input 'WHERE': expected an expression, 'FOREACH', 'ORDER BY', 'CALL', 'CREATE', 'LOAD CSV', 'DELETE', 'DETACH', 'FINISH', 'INSERT', 'LIMIT', 'MATCH', 'MERGE', 'NODETACH', 'OFFSET', 'OPTIONAL', 'REMOVE', 'RETURN', 'SET', 'SKIP', 'UNION', 'UNWIND', 'USE', 'WITH' or <EOF> (line 1, column 48 (offset: 47))\n\"MATCH (n) WHERE n:Person OR n:Knight OR n:Dead WHERE n.age IS NOT NULL RETURN AVG(n.age) AS averageAge\"\n                                                ^}",
+    "runtime_validation": "Failed",
+    "content_validation": "Not applicable - runtime failed",
+    "content_passed": 0
+  },
+  {
+    "NL Question": "What is the average pageRank of all people who died in book '1'?",
+    "Cypher": "MATCH (p:Person)-[:DIED_IN]->(b:Book {name: '1'}) RETURN AVG(p.pageRank) AS AveragePageRank",
+    "source_dataset": "gdsc",
+    "source_chunk": "data_3_1_2_6",
+    "original_file": "Simple_Aggregation.json",
+    "original_index": 550,
+    "unique_id": "gdsc_data_3_1_2_6_Simple_Aggregation_550",
+    "pipeline_stage": "FAILED_RUNTIME",
+    "schema_validation": "✅ Query is valid according to schema!",
+    "failure_reason": "Content: Results only contain null or zero values.",
+    "runtime_validation": "Failed",
+    "neo4j_runtime_validation": "No runtime errors.",
+    "neo4j_runtime_passed": 1,
+    "neo4j_result_validation": "Results returned successfully.",
+    "neo4j_result_passed": 1,
+    "content_validation": "Results only contain null or zero values.",
+    "content_passed": 0
+  }
+]

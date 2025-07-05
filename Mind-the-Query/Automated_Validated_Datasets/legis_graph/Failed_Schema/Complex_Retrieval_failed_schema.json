@@ -1,0 +1,26 @@
+[
+  {
+    "NL Question": "What are the names of committees that legislators with the party 'republican' serve on, and what is the average rank of republican legislators serving on each committee?",
+    "Cypher": "MATCH (l:Legislator)-[:SERVES_ON]->(c:Committee) WHERE l.party = 'republican' WITH c, AVG(l.SERVES_ON.rank) AS avgRank RETURN c.name, avgRank",
+    "source_dataset": "legis_graph",
+    "source_chunk": "data_2_1_2_6",
+    "original_file": "Complex_Retrieval.json",
+    "original_index": 449,
+    "unique_id": "legis_graph_data_2_1_2_6_Complex_Retrieval_449",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `SERVES_ON` does not exist in node `Legislator`.",
+    "schema_validation": "❌ Attribute `SERVES_ON` does not exist in node `Legislator`."
+  },
+  {
+    "NL Question": "What are the names of the committees that legislators from the state 'AL' serve on, and what is the highest rank any legislator from 'AL' has on any of those committees?",
+    "Cypher": "MATCH (l:Legislator {state: 'AL'})-[:SERVES_ON]->(c:Committee) WITH c, MAX(l.rank) AS maxRank RETURN c.name AS CommitteeName, maxRank",
+    "source_dataset": "legis_graph",
+    "source_chunk": "data_2_2_2_6",
+    "original_file": "Complex_Retrieval.json",
+    "original_index": 345,
+    "unique_id": "legis_graph_data_2_2_2_6_Complex_Retrieval_345",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `rank` does not exist in node `Legislator`.",
+    "schema_validation": "❌ Attribute `rank` does not exist in node `Legislator`."
+  }
+]

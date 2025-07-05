@@ -1,0 +1,6 @@
+=== OVERALL DATASET STATS for WWC ===
+Total Queries: 3375
+Schema Validator: (3371, 3375) - 99.9% passed
+Runtime Validator: (3107, 3371) - 92.2% passed
+Value Validator: (2946, 3107) - 94.8% passed
+All Passed Queries: 2946

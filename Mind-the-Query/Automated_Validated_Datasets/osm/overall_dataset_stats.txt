@@ -1,0 +1,6 @@
+=== OVERALL DATASET STATS for OSM ===
+Total Queries: 2944
+Schema Validator: (2759, 2944) - 93.7% passed
+Runtime Validator: (2288, 2759) - 82.9% passed
+Value Validator: (2217, 2288) - 96.9% passed
+All Passed Queries: 2217

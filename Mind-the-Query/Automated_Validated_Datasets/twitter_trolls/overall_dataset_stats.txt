@@ -1,0 +1,6 @@
+=== OVERALL DATASET STATS for TWITTER_TROLLS ===
+Total Queries: 3431
+Schema Validator: (3344, 3431) - 97.5% passed
+Runtime Validator: (2671, 3344) - 79.9% passed
+Value Validator: (2618, 2671) - 98.0% passed
+All Passed Queries: 2618

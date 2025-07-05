@@ -1,0 +1,15 @@
+"result [0/1]": "1",        # able to retrieve some output from neo4j
+"manual [0/1]": "1",       # the Generated cypher is incorrect or not
+"reason/observation [reason for why the query was not logical or was incorrect]": ""        # If it was logically incorrect then what were the reasons and if it didn't return the result what was the observation, the string is kept blank only in the case when query runs successfully and is logically correct. 
+
+
+The parameter of incorrectness is based on the following -
+1. Value Validation
+2. Grammatical Validation
+3. Schema Validation 
+4. Logical Validation
+
+
+If the result is 0 ("empty results") ?
+
+We fetch the complex query run it manually, break the query into multiple simpler sub-queries. 

@@ -1,0 +1,6 @@
+=== OVERALL DATASET STATS for HEALTHCARE ===
+Total Queries: 3330
+Schema Validator: (3318, 3330) - 99.6% passed
+Runtime Validator: (2584, 3318) - 77.9% passed
+Value Validator: (2566, 2584) - 99.3% passed
+All Passed Queries: 2566

@@ -1,0 +1,42 @@
+[
+  {
+    "NL Question": "What is the language spoken by the species named 'Twi'lek'?",
+    "Cypher": "MATCH (s:Species) WHERE s.name = 'Twi\\'lek' RETURN s.language AS speciesLanguage",
+    "source_dataset": "star_wars",
+    "source_chunk": "data_3_1_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 555,
+    "unique_id": "star_wars_data_3_1_2_6_Evaluation_query_555",
+    "pipeline_stage": "FAILED_VALUE",
+    "schema_validation": "✅ Query is valid according to schema!",
+    "runtime_validation": "Passed",
+    "neo4j_runtime_validation": "No runtime errors.",
+    "neo4j_runtime_passed": 1,
+    "neo4j_result_validation": "Results returned successfully.",
+    "neo4j_result_passed": 1,
+    "content_validation": "Results contain non-null, non-zero values.",
+    "content_passed": 1,
+    "failure_reason": "❌ Value 'Twi\\' for property 'name' not found in the NL question.",
+    "value_validation": "❌ Value 'Twi\\' for property 'name' not found in the NL question."
+  },
+  {
+    "NL Question": "What is the language of the 'Twi'lek' species?",
+    "Cypher": "MATCH (s:Species {name: 'Twi\\'lek'}) RETURN s.language AS speciesLanguage",
+    "source_dataset": "star_wars",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 310,
+    "unique_id": "star_wars_data_3_2_2_6_Evaluation_query_310",
+    "pipeline_stage": "FAILED_VALUE",
+    "schema_validation": "✅ Query is valid according to schema!",
+    "runtime_validation": "Passed",
+    "neo4j_runtime_validation": "No runtime errors.",
+    "neo4j_runtime_passed": 1,
+    "neo4j_result_validation": "Results returned successfully.",
+    "neo4j_result_passed": 1,
+    "content_validation": "Results contain non-null, non-zero values.",
+    "content_passed": 1,
+    "failure_reason": "❌ Value 'Twi\\'lek' for property 'name' not found in the NL question.",
+    "value_validation": "❌ Value 'Twi\\'lek' for property 'name' not found in the NL question."
+  }
+]

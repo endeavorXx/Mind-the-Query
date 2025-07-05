@@ -1,0 +1,17 @@
+[
+  {
+    "NL Question": "Retrieve the street address, city, state, and zip code for the address associated with the account holder named Charlott Tribble.",
+    "Cypher": "MATCH (ah:AccountHolder {fullName: 'Charlott Tribble'})-[:HAS_ADDRESS]->(a:Address) RETURN a.streetAddress AS Street, a.city AS City, a.state AS State, a.zip AS Zip",
+    "source_dataset": "bloom50",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Simple_Retrieval.json",
+    "original_index": 0,
+    "unique_id": "bloom50_data_3_2_2_6_Simple_Retrieval_0",
+    "pipeline_stage": "FAILED_RUNTIME",
+    "schema_validation": "✅ Query is valid according to schema!",
+    "failure_reason": "Runtime Error: Failed to read from defunct connection IPv4Address(('localhost', 7687)) (ResolvedIPv4Address(('127.0.0.1', 7687)))",
+    "runtime_validation": "Failed",
+    "content_validation": "Not applicable - runtime failed",
+    "content_passed": 0
+  }
+]

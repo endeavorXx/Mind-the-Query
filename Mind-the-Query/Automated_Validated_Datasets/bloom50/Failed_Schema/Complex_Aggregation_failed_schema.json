@@ -1,0 +1,26 @@
+[
+  {
+    "NL Question": "What is the average balance of credit cards and bank cards held by each account holder?",
+    "Cypher": "MATCH (ah:AccountHolder)-[:HAS_CREDITCARD]->(cc:CreditCard) WITH ah, cc.balance AS cardBalance UNION ALL MATCH (ah:AccountHolder)-[:HAS_BANKCARD]->(bc:BankCard) WITH ah, bc.balance AS cardBalance WITH ah, collect(cardBalance) AS balances RETURN ah.fullName, avg(cardBalance) AS averageCardBalance",
+    "source_dataset": "bloom50",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Complex_Aggregation.json",
+    "original_index": 52,
+    "unique_id": "bloom50_data_3_2_2_6_Complex_Aggregation_52",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Relationship type `HAS_BANKCARD` is not in the schema.",
+    "schema_validation": "❌ Relationship type `HAS_BANKCARD` is not in the schema."
+  },
+  {
+    "NL Question": "For each state, what is the average amount of purchases delivered there, and how many unique delivery addresses are in each state?",
+    "Cypher": "MATCH (p:Purchase)-[:DELIVERED_AT]->(da:DeliveryAddress) WITH p, da MATCH (da:DeliveryAddress {state:da.state}) WITH da.state AS state, AVG(p.amount) AS averageAmount, COUNT(DISTINCT da) AS uniqueAddresses RETURN state, averageAmount, uniqueAddresses",
+    "source_dataset": "bloom50",
+    "source_chunk": "data_3_5_2_6",
+    "original_file": "Complex_Aggregation.json",
+    "original_index": 113,
+    "unique_id": "bloom50_data_3_5_2_6_Complex_Aggregation_113",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Malformed inline property: `.state` in node `DeliveryAddress`.",
+    "schema_validation": "❌ Malformed inline property: `.state` in node `DeliveryAddress`."
+  }
+]

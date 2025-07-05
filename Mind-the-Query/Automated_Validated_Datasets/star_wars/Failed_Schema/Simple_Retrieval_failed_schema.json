@@ -1,0 +1,14 @@
+[
+  {
+    "NL Question": "Retrieve the title of the film with an episode ID of '4'.",
+    "Cypher": "MATCH (f:Film {`episode_id:long`: '4'}) RETURN f.title AS FilmTitle",
+    "source_dataset": "star_wars",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Simple_Retrieval.json",
+    "original_index": 298,
+    "unique_id": "star_wars_data_3_2_2_6_Simple_Retrieval_298",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Malformed inline property: ``` in node `Film`.\n❌ Malformed inline property: ``: '4'` in node `Film`.\n❌ Inline property `episode_id` not in node `Film`.",
+    "schema_validation": "❌ Malformed inline property: ``` in node `Film`.\n❌ Malformed inline property: ``: '4'` in node `Film`.\n❌ Inline property `episode_id` not in node `Film`."
+  }
+]

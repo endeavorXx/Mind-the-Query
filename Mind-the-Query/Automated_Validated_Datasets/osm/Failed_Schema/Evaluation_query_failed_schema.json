@@ -1,0 +1,98 @@
+[
+  {
+    "NL Question": "What is the name of the bus stop that has '400109' as its 'ref:MTA'?",
+    "Cypher": "MATCH (t:OSMTags {`ref:MTA`: '400109'}) RETURN t.name AS BusStopName;",
+    "source_dataset": "osm",
+    "source_chunk": "data_3_3_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 23,
+    "unique_id": "osm_data_3_3_2_6_Evaluation_query_23",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Malformed inline property: ``` in node `OSMTags`.\n❌ Malformed inline property: ``: '400109'` in node `OSMTags`.",
+    "schema_validation": "❌ Malformed inline property: ``` in node `OSMTags`.\n❌ Malformed inline property: ``: '400109'` in node `OSMTags`."
+  },
+  {
+    "NL Question": "What is the timestamp of the OSMNode with node_osm_id equal to 4290879324?",
+    "Cypher": "MATCH (n:OSMNode {node_osm_id: 4290879324, version: 1, timestamp: '2016-07-08 T 13:24:09 None', lat: 40.7822148, lon: -73.9647893, location: point({latitude: 40.7822148, longitude: -73.9647893})}) RETURN n.timestamp AS NodeTimestamp;",
+    "source_dataset": "osm",
+    "source_chunk": "data_3_3_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 338,
+    "unique_id": "osm_data_3_3_2_6_Evaluation_query_338",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Malformed inline property: `({` in node `OSMNode`.\n❌ Inline property `latitude` not in node `OSMNode`.\n❌ Inline property `longitude` not in node `OSMNode`.",
+    "schema_validation": "❌ Malformed inline property: `({` in node `OSMNode`.\n❌ Inline property `latitude` not in node `OSMNode`.\n❌ Inline property `longitude` not in node `OSMNode`."
+  },
+  {
+    "NL Question": "What is the name of the PointOfInterest node that has a location POINT(-73.9734422 40.7793435)?",
+    "Cypher": "MATCH (p:PointOfInterest {location: POINT({latitude: 40.7793435, longitude: -73.9734422})}) RETURN p.name AS PointOfInterestName;",
+    "source_dataset": "osm",
+    "source_chunk": "data_3_3_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 409,
+    "unique_id": "osm_data_3_3_2_6_Evaluation_query_409",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Malformed inline property: `({` in node `PointOfInterest`.\n❌ Inline property `latitude` not in node `PointOfInterest`.\n❌ Inline property `longitude` not in node `PointOfInterest`.",
+    "schema_validation": "❌ Malformed inline property: `({` in node `PointOfInterest`.\n❌ Inline property `latitude` not in node `PointOfInterest`.\n❌ Inline property `longitude` not in node `PointOfInterest`."
+  },
+  {
+    "NL Question": "What is the name associated with the OSMTags node that has the Korean name '콜럼버스 서클'?",
+    "Cypher": "MATCH (t:OSMTags {`name:ko`: '콜럼버스 서클'}) RETURN t.name AS Name;",
+    "source_dataset": "osm",
+    "source_chunk": "data_3_3_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 492,
+    "unique_id": "osm_data_3_3_2_6_Evaluation_query_492",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Malformed inline property: ``` in node `OSMTags`.\n❌ Malformed inline property: ``: '콜럼버스 서클'` in node `OSMTags`.",
+    "schema_validation": "❌ Malformed inline property: ``` in node `OSMTags`.\n❌ Malformed inline property: ``: '콜럼버스 서클'` in node `OSMTags`."
+  },
+  {
+    "NL Question": "What is the name of the OSM Tag that is associated with species wikidata Q26685?",
+    "Cypher": "MATCH (t:OSMTags {`species:wikidata`: 'Q26685'}) RETURN t.name AS OSMTagName;",
+    "source_dataset": "osm",
+    "source_chunk": "data_3_3_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 498,
+    "unique_id": "osm_data_3_3_2_6_Evaluation_query_498",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Malformed inline property: ``` in node `OSMTags`.\n❌ Malformed inline property: ``: 'Q26685'` in node `OSMTags`.\n❌ Inline property `species` not in node `OSMTags`.",
+    "schema_validation": "❌ Malformed inline property: ``` in node `OSMTags`.\n❌ Malformed inline property: ``: 'Q26685'` in node `OSMTags`.\n❌ Inline property `species` not in node `OSMTags`."
+  },
+  {
+    "NL Question": "What is the distance property of the NEXT relationship between two OSMWayNode nodes?",
+    "Cypher": "MATCH (n1:OSMWayNode)-[r:NEXT]->(n2:OSMWayNode) RETURN r.distance AS NextDistance LIMIT 1",
+    "source_dataset": "osm",
+    "source_chunk": "data_3_3_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 626,
+    "unique_id": "osm_data_3_3_2_6_Evaluation_query_626",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Node label `OSMWayNode` is not in the schema.\n❌ Node label `OSMWayNode` is not in the schema.",
+    "schema_validation": "❌ Node label `OSMWayNode` is not in the schema.\n❌ Node label `OSMWayNode` is not in the schema."
+  },
+  {
+    "NL Question": "What is the version number of the OSMNode with node_osm_id 2827454519?",
+    "Cypher": "MATCH (n:OSMNode {node_osm_id: 2827454519, version: 1, timestamp: datetime('2014-04-30T19:39:50'), lat: 40.7795233, lon: -73.9689709, location: point({latitude: 40.7795233, longitude: -73.9689709})}) RETURN n.version AS Version;",
+    "source_dataset": "osm",
+    "source_chunk": "data_3_3_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 785,
+    "unique_id": "osm_data_3_3_2_6_Evaluation_query_785",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Malformed inline property: `({` in node `OSMNode`.\n❌ Inline property `latitude` not in node `OSMNode`.\n❌ Inline property `longitude` not in node `OSMNode`.",
+    "schema_validation": "❌ Malformed inline property: `({` in node `OSMNode`.\n❌ Inline property `latitude` not in node `OSMNode`.\n❌ Inline property `longitude` not in node `OSMNode`."
+  },
+  {
+    "NL Question": "What is the name of the PointOfInterest that has node_osm_id 5618087850?",
+    "Cypher": "MATCH (p:PointOfInterest {node_osm_id: 5618087850, version: 1, timestamp: datetime('2018-05-14T18:17:04'), lat: 40.7791519, lon: -73.9644503, location: point({latitude: 40.7791519, longitude: -73.9644503}), name: 'Petrie Court Café', type: 'cafe'}) RETURN p.name AS PointOfInterestName;",
+    "source_dataset": "osm",
+    "source_chunk": "data_3_3_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 786,
+    "unique_id": "osm_data_3_3_2_6_Evaluation_query_786",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Malformed inline property: `({` in node `PointOfInterest`.\n❌ Inline property `latitude` not in node `PointOfInterest`.\n❌ Inline property `longitude` not in node `PointOfInterest`.",
+    "schema_validation": "❌ Malformed inline property: `({` in node `PointOfInterest`.\n❌ Inline property `latitude` not in node `PointOfInterest`.\n❌ Inline property `longitude` not in node `PointOfInterest`."
+  }
+]

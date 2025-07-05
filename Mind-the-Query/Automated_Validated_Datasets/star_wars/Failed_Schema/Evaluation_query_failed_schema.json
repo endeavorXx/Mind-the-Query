@@ -1,0 +1,74 @@
+[
+  {
+    "NL Question": "What is the title of the film with an episode ID of '4'?",
+    "Cypher": "MATCH (f:Film {`episode_id:long`: '4'}) RETURN f.title AS filmTitle;",
+    "source_dataset": "star_wars",
+    "source_chunk": "data_3_1_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 88,
+    "unique_id": "star_wars_data_3_1_2_6_Evaluation_query_88",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Malformed inline property: ``` in node `Film`.\n❌ Malformed inline property: ``: '4'` in node `Film`.\n❌ Inline property `episode_id` not in node `Film`.",
+    "schema_validation": "❌ Malformed inline property: ``` in node `Film`.\n❌ Malformed inline property: ``: '4'` in node `Film`.\n❌ Inline property `episode_id` not in node `Film`."
+  },
+  {
+    "NL Question": "What is the title of the film with director 'George Lucas' and episode ID '1'?",
+    "Cypher": "MATCH (f:Film {director: 'George Lucas', `episode_id:long`: '1'}) RETURN f.title AS filmTitle;",
+    "source_dataset": "star_wars",
+    "source_chunk": "data_3_1_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 319,
+    "unique_id": "star_wars_data_3_1_2_6_Evaluation_query_319",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Malformed inline property: ``` in node `Film`.\n❌ Malformed inline property: ``: '1'` in node `Film`.\n❌ Inline property `episode_id` not in node `Film`.",
+    "schema_validation": "❌ Malformed inline property: ``` in node `Film`.\n❌ Malformed inline property: ``: '1'` in node `Film`.\n❌ Inline property `episode_id` not in node `Film`."
+  },
+  {
+    "NL Question": "What is the title of the film with an 'episode_id:long' equal to '2'?",
+    "Cypher": "MATCH (f:Film {`episode_id:long`: '2'}) RETURN f.title AS filmTitle",
+    "source_dataset": "star_wars",
+    "source_chunk": "data_3_1_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 353,
+    "unique_id": "star_wars_data_3_1_2_6_Evaluation_query_353",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Malformed inline property: ``` in node `Film`.\n❌ Malformed inline property: ``: '2'` in node `Film`.\n❌ Inline property `episode_id` not in node `Film`.",
+    "schema_validation": "❌ Malformed inline property: ``` in node `Film`.\n❌ Malformed inline property: ``: '2'` in node `Film`.\n❌ Inline property `episode_id` not in node `Film`."
+  },
+  {
+    "NL Question": "What is the title of the film with an 'episode_id:long' equal to '4'?",
+    "Cypher": "MATCH (f:Film {`episode_id:long`: '4'}) RETURN f.title AS filmTitle;",
+    "source_dataset": "star_wars",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 10,
+    "unique_id": "star_wars_data_3_2_2_6_Evaluation_query_10",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Malformed inline property: ``` in node `Film`.\n❌ Malformed inline property: ``: '4'` in node `Film`.\n❌ Inline property `episode_id` not in node `Film`.",
+    "schema_validation": "❌ Malformed inline property: ``` in node `Film`.\n❌ Malformed inline property: ``: '4'` in node `Film`.\n❌ Inline property `episode_id` not in node `Film`."
+  },
+  {
+    "NL Question": "What is the title of the film with an 'episode_id:long' of '1'?",
+    "Cypher": "MATCH (f:Film {`episode_id:long`: '1'}) RETURN f.title AS filmTitle;",
+    "source_dataset": "star_wars",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 416,
+    "unique_id": "star_wars_data_3_2_2_6_Evaluation_query_416",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Malformed inline property: ``` in node `Film`.\n❌ Malformed inline property: ``: '1'` in node `Film`.\n❌ Inline property `episode_id` not in node `Film`.",
+    "schema_validation": "❌ Malformed inline property: ``` in node `Film`.\n❌ Malformed inline property: ``: '1'` in node `Film`.\n❌ Inline property `episode_id` not in node `Film`."
+  },
+  {
+    "NL Question": "What is the title of the film with an 'episode_id:long' value of '2'?",
+    "Cypher": "MATCH (f:Film {`episode_id:long`: '2'}) RETURN f.title AS filmTitle;",
+    "source_dataset": "star_wars",
+    "source_chunk": "data_3_2_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 424,
+    "unique_id": "star_wars_data_3_2_2_6_Evaluation_query_424",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Malformed inline property: ``` in node `Film`.\n❌ Malformed inline property: ``: '2'` in node `Film`.\n❌ Inline property `episode_id` not in node `Film`.",
+    "schema_validation": "❌ Malformed inline property: ``` in node `Film`.\n❌ Malformed inline property: ``: '2'` in node `Film`.\n❌ Inline property `episode_id` not in node `Film`."
+  }
+]

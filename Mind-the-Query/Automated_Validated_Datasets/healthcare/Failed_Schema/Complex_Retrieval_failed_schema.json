@@ -1,0 +1,26 @@
+[
+  {
+    "NL Question": "Retrieve cases where 'POMALYST' (primary substance 'POMALIDOMIDE') is prescribed with 'Oral' route, and the case falls under the 'Elderly' age group. Return the case primary IDs and indication for the drug.",
+    "Cypher": "MATCH (d:Drug {name: 'POMALYST', primarySubstabce: 'POMALIDOMIDE'})<-[p:PRESCRIBED]-(t:Therapy)<-[:RECEIVED]-(c:Case)-[:FALLS_UNDER]->(a:AgeGroup {ageGroup: 'Elderly'}) WHERE p.route = 'Oral' RETURN c.primaryid AS caseId, p.indication AS indication",
+    "source_dataset": "healthcare",
+    "source_chunk": "data_3_1_2_6",
+    "original_file": "Complex_Retrieval.json",
+    "original_index": 347,
+    "unique_id": "healthcare_data_3_1_2_6_Complex_Retrieval_347",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `route` not in relationship `PRESCRIBED`.\n❌ Attribute `indication` not in relationship `PRESCRIBED`.",
+    "schema_validation": "❌ Attribute `route` not in relationship `PRESCRIBED`.\n❌ Attribute `indication` not in relationship `PRESCRIBED`."
+  },
+  {
+    "NL Question": "Retrieve cases where the reporter occupation is 'Hospital' and the event date is '2021-07-07', and determine if any of the prescribed therapies involve drugs with 'Unknown' indication. Return the case IDs.",
+    "Cypher": "MATCH (c:Case {reporterOccupation: 'Hospital', eventDate: date('2021-07-07')})-[:RECEIVED]->(t:Therapy)-[p:PRESCRIBED]->(d:Drug) WHERE p.indication = 'Unknown' RETURN c.primaryid AS caseId",
+    "source_dataset": "healthcare",
+    "source_chunk": "data_3_1_2_6",
+    "original_file": "Complex_Retrieval.json",
+    "original_index": 1025,
+    "unique_id": "healthcare_data_3_1_2_6_Complex_Retrieval_1025",
+    "pipeline_stage": "FAILED_SCHEMA",
+    "failure_reason": "❌ Attribute `indication` not in relationship `PRESCRIBED`.",
+    "schema_validation": "❌ Attribute `indication` not in relationship `PRESCRIBED`."
+  }
+]

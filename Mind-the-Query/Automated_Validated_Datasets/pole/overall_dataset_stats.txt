@@ -1,0 +1,6 @@
+=== OVERALL DATASET STATS for POLE ===
+Total Queries: 3435
+Schema Validator: (3424, 3435) - 99.7% passed
+Runtime Validator: (2767, 3424) - 80.8% passed
+Value Validator: (2759, 2767) - 99.7% passed
+All Passed Queries: 2759

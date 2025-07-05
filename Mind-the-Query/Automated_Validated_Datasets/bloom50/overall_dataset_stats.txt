@@ -1,0 +1,6 @@
+=== OVERALL DATASET STATS for BLOOM50 ===
+Total Queries: 1665
+Schema Validator: (1659, 1665) - 99.6% passed
+Runtime Validator: (1554, 1659) - 93.7% passed
+Value Validator: (1547, 1554) - 99.5% passed
+All Passed Queries: 1547

@@ -1,0 +1,124 @@
+{
+  "dataset": "pole",
+  "categories": {
+    "Simple_Retrieval": {
+      "category": "Simple_Retrieval",
+      "total_queries": 746,
+      "schema_stage": {
+        "input": 746,
+        "passed": 746,
+        "failed": 0
+      },
+      "runtime_stage": {
+        "input": 746,
+        "passed": 735,
+        "failed": 11
+      },
+      "value_stage": {
+        "input": 735,
+        "passed": 735,
+        "failed": 0
+      },
+      "final_passed": 735
+    },
+    "Simple_Aggregation": {
+      "category": "Simple_Aggregation",
+      "total_queries": 356,
+      "schema_stage": {
+        "input": 356,
+        "passed": 356,
+        "failed": 0
+      },
+      "runtime_stage": {
+        "input": 356,
+        "passed": 355,
+        "failed": 1
+      },
+      "value_stage": {
+        "input": 355,
+        "passed": 355,
+        "failed": 0
+      },
+      "final_passed": 355
+    },
+    "Complex_Retrieval": {
+      "category": "Complex_Retrieval",
+      "total_queries": 798,
+      "schema_stage": {
+        "input": 798,
+        "passed": 793,
+        "failed": 5
+      },
+      "runtime_stage": {
+        "input": 793,
+        "passed": 403,
+        "failed": 390
+      },
+      "value_stage": {
+        "input": 403,
+        "passed": 398,
+        "failed": 5
+      },
+      "final_passed": 398
+    },
+    "Complex_Aggregation": {
+      "category": "Complex_Aggregation",
+      "total_queries": 737,
+      "schema_stage": {
+        "input": 737,
+        "passed": 731,
+        "failed": 6
+      },
+      "runtime_stage": {
+        "input": 731,
+        "passed": 488,
+        "failed": 243
+      },
+      "value_stage": {
+        "input": 488,
+        "passed": 486,
+        "failed": 2
+      },
+      "final_passed": 486
+    },
+    "Evaluation_query": {
+      "category": "Evaluation_query",
+      "total_queries": 798,
+      "schema_stage": {
+        "input": 798,
+        "passed": 798,
+        "failed": 0
+      },
+      "runtime_stage": {
+        "input": 798,
+        "passed": 786,
+        "failed": 12
+      },
+      "value_stage": {
+        "input": 786,
+        "passed": 785,
+        "failed": 1
+      },
+      "final_passed": 785
+    }
+  },
+  "overall": {
+    "total_queries": 3435,
+    "schema_stage": {
+      "input": 3435,
+      "passed": 3424,
+      "failed": 11
+    },
+    "runtime_stage": {
+      "input": 3424,
+      "passed": 2767,
+      "failed": 657
+    },
+    "value_stage": {
+      "input": 2767,
+      "passed": 2759,
+      "failed": 8
+    },
+    "final_passed": 2759
+  }
+}

@@ -1,0 +1,40 @@
+[
+  {
+    "NL Question": "What is the jurisdiction of the committee with the thomasID 'SPAG'?",
+    "Cypher": "MATCH (c:Committee {thomasID: 'SPAG'}) RETURN c.jurisdiction AS committeeJurisdiction;",
+    "source_dataset": "legis_graph",
+    "source_chunk": "data_2_1_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 109,
+    "unique_id": "legis_graph_data_2_1_2_6_Evaluation_query_109",
+    "pipeline_stage": "FAILED_RUNTIME",
+    "schema_validation": "✅ Query is valid according to schema!",
+    "failure_reason": "Content: Results only contain null or zero values.",
+    "runtime_validation": "Failed",
+    "neo4j_runtime_validation": "No runtime errors.",
+    "neo4j_runtime_passed": 1,
+    "neo4j_result_validation": "Results returned successfully.",
+    "neo4j_result_passed": 1,
+    "content_validation": "Results only contain null or zero values.",
+    "content_passed": 0
+  },
+  {
+    "NL Question": "What is the jurisdiction of the committee that the legislator with the bioguideID 'C000880' serves on, where their rank is 4?",
+    "Cypher": "MATCH (l:Legislator {bioguideID: 'C000880'})-[r:SERVES_ON {rank: 4}]->(c:Committee) RETURN c.jurisdiction AS committeeJurisdiction;",
+    "source_dataset": "legis_graph",
+    "source_chunk": "data_2_1_2_6",
+    "original_file": "Evaluation_query.json",
+    "original_index": 458,
+    "unique_id": "legis_graph_data_2_1_2_6_Evaluation_query_458",
+    "pipeline_stage": "FAILED_RUNTIME",
+    "schema_validation": "✅ Query is valid according to schema!",
+    "failure_reason": "Content: Results only contain null or zero values.",
+    "runtime_validation": "Failed",
+    "neo4j_runtime_validation": "No runtime errors.",
+    "neo4j_runtime_passed": 1,
+    "neo4j_result_validation": "Results returned successfully.",
+    "neo4j_result_passed": 1,
+    "content_validation": "Results only contain null or zero values.",
+    "content_passed": 0
+  }
+]
