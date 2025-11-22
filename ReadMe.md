@@ -204,14 +204,14 @@ Below are the synthetic datasets used in our experiments :-
 
 This project is licensed under the MIT License - see the LICENSE file for details. -->
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Google Gemini AI for question generation
 - Neo4j for graph database support
 - [Text2Cypher repo for utilities](https://github.com/neo4j-labs/text2cypher)
 - Contributors to the various dataset schemas
 
-## 📞 Support
+## Support
 
 For questions or issues:
 1. Check the documentation
