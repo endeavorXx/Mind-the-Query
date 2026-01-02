@@ -177,7 +177,7 @@ MATCH (m:Movie {title: "The Matrix"}) RETURN m.releaseYear
 
 ## 📈 Datasets
 
-Below are the synthetic datasets used in our experiments :-
+Below are the sources of synthetic datasets used in our experiments :-
 
 - **[Healthcare Analytics (HCA)](https://github.com/neo4j-graph-examples/healthcare-analytics)**
 - **[Contact Tracing (CT)](https://github.com/neo4j-graph-examples/contact-tracing)**
