@@ -2,11 +2,14 @@
 
 A comprehensive framework for generating, validating, and consolidating natural language to Cypher query datasets using AI-powered question generation and multi-stage validation pipelines.
 
-## 🚀 Overview
+## Updates 
+### We release train-test splits for all datasets including Manually Validated Dataset and the one with Automated Validated Pipeline
+
+## Overview
 
 This project provides an end-to-end solution for creating high-quality datasets that map natural language questions to Cypher queries for Neo4j graph databases. The framework includes automated question generation using Google's Gemini AI, rigorous validation through schema/runtime/value checks, and sophisticated data consolidation with deduplication.
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Mind-the-Query/
@@ -51,7 +54,7 @@ Mind-the-Query/
     |__ utilities.py
 ```
 
-## 🛠️ Core Components
+## Core Components
 
 ### 1. Question Generation (`nl_cypher_pair_generator.py`)
 - **AI-Powered Generation**: Uses Google Gemini AI to generate natural language questions and corresponding Cypher queries
@@ -88,7 +91,7 @@ A rigorous 3-stage automated sequential validation system:
 ### 4. Data Management (`data_manager.py`)
 - Handles file organization and storage for generation pipeline
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Python 3.8+
@@ -192,7 +195,7 @@ Below are the sources of synthetic datasets used in our experiments :-
 - **[Star Wars (SW)](https://github.com/neo4j-graph-examples/star-wars)**
 
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -206,7 +209,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Acknowledgments
 
-- Google Gemini AI for question generation
+- IBM for collaboration
 - Neo4j for graph database support
 - [Text2Cypher repo for utilities](https://github.com/neo4j-labs/text2cypher)
 - Contributors to the various dataset schemas
