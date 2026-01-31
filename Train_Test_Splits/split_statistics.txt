@@ -1,0 +1,120 @@
+================================================================================
+TRAIN-TEST SPLIT SUMMARY STATISTICS
+================================================================================
+Split Ratio: 70% Train / 30% Test
+Split Method: Sequential (first 70% train, last 30% test)
+
+--------------------------------------------------------------------------------
+AUTOMATED VALIDATED DATASETS
+--------------------------------------------------------------------------------
+
+bloom50:
+  Complex_Aggregation: 333 → 233 train, 100 test
+  Complex_Retrieval: 319 → 223 train, 96 test
+  Evaluation_query: 379 → 265 train, 114 test
+  Simple_Aggregation: 124 → 86 train, 38 test
+  Simple_Retrieval: 392 → 274 train, 118 test
+
+covid:
+  Complex_Aggregation: 559 → 391 train, 168 test
+  Complex_Retrieval: 566 → 396 train, 170 test
+  Evaluation_query: 565 → 395 train, 170 test
+  Simple_Aggregation: 274 → 191 train, 83 test
+  Simple_Retrieval: 473 → 331 train, 142 test
+
+er:
+  Complex_Aggregation: 510 → 357 train, 153 test
+  Complex_Retrieval: 550 → 385 train, 165 test
+  Evaluation_query: 747 → 522 train, 225 test
+  Simple_Aggregation: 294 → 205 train, 89 test
+  Simple_Retrieval: 745 → 521 train, 224 test
+
+gdsc:
+  Complex_Aggregation: 615 → 430 train, 185 test
+  Complex_Retrieval: 495 → 346 train, 149 test
+  Evaluation_query: 408 → 285 train, 123 test
+  Simple_Aggregation: 328 → 229 train, 99 test
+  Simple_Retrieval: 390 → 273 train, 117 test
+
+healthcare:
+  Complex_Aggregation: 524 → 366 train, 158 test
+  Complex_Retrieval: 304 → 212 train, 92 test
+  Evaluation_query: 742 → 519 train, 223 test
+  Simple_Aggregation: 483 → 338 train, 145 test
+  Simple_Retrieval: 513 → 359 train, 154 test
+
+legis_graph:
+  Complex_Aggregation: 385 → 269 train, 116 test
+  Complex_Retrieval: 590 → 413 train, 177 test
+  Evaluation_query: 788 → 551 train, 237 test
+  Simple_Aggregation: 358 → 250 train, 108 test
+  Simple_Retrieval: 757 → 529 train, 228 test
+
+osm:
+  Complex_Aggregation: 486 → 340 train, 146 test
+  Complex_Retrieval: 409 → 286 train, 123 test
+  Evaluation_query: 562 → 393 train, 169 test
+  Simple_Aggregation: 307 → 214 train, 93 test
+  Simple_Retrieval: 453 → 317 train, 136 test
+
+pole:
+  Complex_Aggregation: 486 → 340 train, 146 test
+  Complex_Retrieval: 398 → 278 train, 120 test
+  Evaluation_query: 785 → 549 train, 236 test
+  Simple_Aggregation: 355 → 248 train, 107 test
+  Simple_Retrieval: 735 → 514 train, 221 test
+
+star_wars:
+  Complex_Aggregation: 571 → 399 train, 172 test
+  Complex_Retrieval: 591 → 413 train, 178 test
+  Evaluation_query: 590 → 413 train, 177 test
+  Simple_Aggregation: 297 → 207 train, 90 test
+  Simple_Retrieval: 430 → 301 train, 129 test
+
+twitter_trolls:
+  Complex_Aggregation: 654 → 457 train, 197 test
+  Complex_Retrieval: 382 → 267 train, 115 test
+  Evaluation_query: 575 → 402 train, 173 test
+  Simple_Aggregation: 358 → 250 train, 108 test
+  Simple_Retrieval: 649 → 454 train, 195 test
+
+wwc:
+  Complex_Aggregation: 572 → 400 train, 172 test
+  Complex_Retrieval: 592 → 414 train, 178 test
+  Evaluation_query: 577 → 403 train, 174 test
+  Simple_Aggregation: 541 → 378 train, 163 test
+  Simple_Retrieval: 664 → 464 train, 200 test
+
+AUTOMATED TOTAL: 27529 → 19245 train, 8284 test
+
+--------------------------------------------------------------------------------
+MANUALLY VALIDATED DATASETS
+--------------------------------------------------------------------------------
+
+bloom:
+  Complex_Aggregation: 95 → 66 train, 29 test
+  Complex_Retrieval: 96 → 67 train, 29 test
+
+covid:
+  Complex_Aggregation: 763 → 534 train, 229 test
+  Complex_Retrieval: 696 → 487 train, 209 test
+
+er:
+  Complex_Aggregation: 616 → 431 train, 185 test
+  Complex_Retrieval: 784 → 548 train, 236 test
+
+healthcare:
+  Complex_Aggregation: 730 → 510 train, 220 test
+  Complex_Retrieval: 800 → 560 train, 240 test
+
+wwc:
+  Complex_Aggregation: 727 → 508 train, 219 test
+  Complex_Retrieval: 776 → 543 train, 233 test
+
+MANUAL TOTAL: 6083 → 4254 train, 1829 test
+
+================================================================================
+GRAND TOTAL: 33612 samples
+  Train: 23499
+  Test: 10113
+================================================================================

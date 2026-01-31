@@ -1,0 +1,368 @@
+{
+  "config": {
+    "train_ratio": 0.7,
+    "test_ratio": 0.3,
+    "split_method": "sequential"
+  },
+  "automated": {
+    "bloom50": {
+      "Simple_Retrieval": {
+        "total": 392,
+        "train": 274,
+        "test": 118
+      },
+      "Simple_Aggregation": {
+        "total": 124,
+        "train": 86,
+        "test": 38
+      },
+      "Complex_Retrieval": {
+        "total": 319,
+        "train": 223,
+        "test": 96
+      },
+      "Complex_Aggregation": {
+        "total": 333,
+        "train": 233,
+        "test": 100
+      },
+      "Evaluation_query": {
+        "total": 379,
+        "train": 265,
+        "test": 114
+      }
+    },
+    "covid": {
+      "Simple_Retrieval": {
+        "total": 473,
+        "train": 331,
+        "test": 142
+      },
+      "Simple_Aggregation": {
+        "total": 274,
+        "train": 191,
+        "test": 83
+      },
+      "Complex_Retrieval": {
+        "total": 566,
+        "train": 396,
+        "test": 170
+      },
+      "Complex_Aggregation": {
+        "total": 559,
+        "train": 391,
+        "test": 168
+      },
+      "Evaluation_query": {
+        "total": 565,
+        "train": 395,
+        "test": 170
+      }
+    },
+    "er": {
+      "Simple_Retrieval": {
+        "total": 745,
+        "train": 521,
+        "test": 224
+      },
+      "Simple_Aggregation": {
+        "total": 294,
+        "train": 205,
+        "test": 89
+      },
+      "Complex_Retrieval": {
+        "total": 550,
+        "train": 385,
+        "test": 165
+      },
+      "Complex_Aggregation": {
+        "total": 510,
+        "train": 357,
+        "test": 153
+      },
+      "Evaluation_query": {
+        "total": 747,
+        "train": 522,
+        "test": 225
+      }
+    },
+    "gdsc": {
+      "Simple_Retrieval": {
+        "total": 390,
+        "train": 273,
+        "test": 117
+      },
+      "Simple_Aggregation": {
+        "total": 328,
+        "train": 229,
+        "test": 99
+      },
+      "Complex_Retrieval": {
+        "total": 495,
+        "train": 346,
+        "test": 149
+      },
+      "Complex_Aggregation": {
+        "total": 615,
+        "train": 430,
+        "test": 185
+      },
+      "Evaluation_query": {
+        "total": 408,
+        "train": 285,
+        "test": 123
+      }
+    },
+    "healthcare": {
+      "Simple_Retrieval": {
+        "total": 513,
+        "train": 359,
+        "test": 154
+      },
+      "Simple_Aggregation": {
+        "total": 483,
+        "train": 338,
+        "test": 145
+      },
+      "Complex_Retrieval": {
+        "total": 304,
+        "train": 212,
+        "test": 92
+      },
+      "Complex_Aggregation": {
+        "total": 524,
+        "train": 366,
+        "test": 158
+      },
+      "Evaluation_query": {
+        "total": 742,
+        "train": 519,
+        "test": 223
+      }
+    },
+    "legis_graph": {
+      "Simple_Retrieval": {
+        "total": 757,
+        "train": 529,
+        "test": 228
+      },
+      "Simple_Aggregation": {
+        "total": 358,
+        "train": 250,
+        "test": 108
+      },
+      "Complex_Retrieval": {
+        "total": 590,
+        "train": 413,
+        "test": 177
+      },
+      "Complex_Aggregation": {
+        "total": 385,
+        "train": 269,
+        "test": 116
+      },
+      "Evaluation_query": {
+        "total": 788,
+        "train": 551,
+        "test": 237
+      }
+    },
+    "osm": {
+      "Simple_Retrieval": {
+        "total": 453,
+        "train": 317,
+        "test": 136
+      },
+      "Simple_Aggregation": {
+        "total": 307,
+        "train": 214,
+        "test": 93
+      },
+      "Complex_Retrieval": {
+        "total": 409,
+        "train": 286,
+        "test": 123
+      },
+      "Complex_Aggregation": {
+        "total": 486,
+        "train": 340,
+        "test": 146
+      },
+      "Evaluation_query": {
+        "total": 562,
+        "train": 393,
+        "test": 169
+      }
+    },
+    "pole": {
+      "Simple_Retrieval": {
+        "total": 735,
+        "train": 514,
+        "test": 221
+      },
+      "Simple_Aggregation": {
+        "total": 355,
+        "train": 248,
+        "test": 107
+      },
+      "Complex_Retrieval": {
+        "total": 398,
+        "train": 278,
+        "test": 120
+      },
+      "Complex_Aggregation": {
+        "total": 486,
+        "train": 340,
+        "test": 146
+      },
+      "Evaluation_query": {
+        "total": 785,
+        "train": 549,
+        "test": 236
+      }
+    },
+    "star_wars": {
+      "Simple_Retrieval": {
+        "total": 430,
+        "train": 301,
+        "test": 129
+      },
+      "Simple_Aggregation": {
+        "total": 297,
+        "train": 207,
+        "test": 90
+      },
+      "Complex_Retrieval": {
+        "total": 591,
+        "train": 413,
+        "test": 178
+      },
+      "Complex_Aggregation": {
+        "total": 571,
+        "train": 399,
+        "test": 172
+      },
+      "Evaluation_query": {
+        "total": 590,
+        "train": 413,
+        "test": 177
+      }
+    },
+    "twitter_trolls": {
+      "Simple_Retrieval": {
+        "total": 649,
+        "train": 454,
+        "test": 195
+      },
+      "Simple_Aggregation": {
+        "total": 358,
+        "train": 250,
+        "test": 108
+      },
+      "Complex_Retrieval": {
+        "total": 382,
+        "train": 267,
+        "test": 115
+      },
+      "Complex_Aggregation": {
+        "total": 654,
+        "train": 457,
+        "test": 197
+      },
+      "Evaluation_query": {
+        "total": 575,
+        "train": 402,
+        "test": 173
+      }
+    },
+    "wwc": {
+      "Simple_Retrieval": {
+        "total": 664,
+        "train": 464,
+        "test": 200
+      },
+      "Simple_Aggregation": {
+        "total": 541,
+        "train": 378,
+        "test": 163
+      },
+      "Complex_Retrieval": {
+        "total": 592,
+        "train": 414,
+        "test": 178
+      },
+      "Complex_Aggregation": {
+        "total": 572,
+        "train": 400,
+        "test": 172
+      },
+      "Evaluation_query": {
+        "total": 577,
+        "train": 403,
+        "test": 174
+      }
+    }
+  },
+  "manual": {
+    "bloom": {
+      "Complex_Retrieval": {
+        "total": 96,
+        "train": 67,
+        "test": 29
+      },
+      "Complex_Aggregation": {
+        "total": 95,
+        "train": 66,
+        "test": 29
+      }
+    },
+    "covid": {
+      "Complex_Retrieval": {
+        "total": 696,
+        "train": 487,
+        "test": 209
+      },
+      "Complex_Aggregation": {
+        "total": 763,
+        "train": 534,
+        "test": 229
+      }
+    },
+    "er": {
+      "Complex_Retrieval": {
+        "total": 784,
+        "train": 548,
+        "test": 236
+      },
+      "Complex_Aggregation": {
+        "total": 616,
+        "train": 431,
+        "test": 185
+      }
+    },
+    "healthcare": {
+      "Complex_Retrieval": {
+        "total": 800,
+        "train": 560,
+        "test": 240
+      },
+      "Complex_Aggregation": {
+        "total": 730,
+        "train": 510,
+        "test": 220
+      }
+    },
+    "wwc": {
+      "Complex_Retrieval": {
+        "total": 776,
+        "train": 543,
+        "test": 233
+      },
+      "Complex_Aggregation": {
+        "total": 727,
+        "train": 508,
+        "test": 219
+      }
+    }
+  }
+}
