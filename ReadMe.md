@@ -3,7 +3,7 @@
 A comprehensive framework for generating, validating, and consolidating natural language to Cypher query datasets using AI-powered question generation and multi-stage validation pipelines.
 
 ## Updates 
-### We release train-test splits for all datasets including Manually Validated Dataset and the one with Automated Validated Pipeline
+--> We release train-test splits for all datasets including Manually Validated Dataset and the one with Automated Validated Pipeline
 
 ## Overview
 
