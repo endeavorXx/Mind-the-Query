@@ -4,6 +4,7 @@ A comprehensive framework for generating, validating, and consolidating natural 
 
 ## Updates 
 --> We release train-test splits for all datasets including Manually Validated Dataset and the one with Automated Validated Pipeline
+--> This Work has been accepted at EMNLP 2025 (Industry Track)
 
 ## Overview
 
@@ -214,12 +215,17 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [Text2Cypher repo for utilities](https://github.com/neo4j-labs/text2cypher)
 - Contributors to the various dataset schemas
 
-## Support
-
-For questions or issues:
-1. Check the documentation
-2. Review existing issues
-3. Create a new issue with detailed description
+## Cite
+If you use this dataset or the extraction pipeline, kindly cite the paper:
+```
+@inproceedings{chauhan2025mind,
+  title={Mind the Query: A Benchmark Dataset towards Text2Cypher Task},
+  author={Chauhan, Vashu and Raj, Shobhit and Mujumdar, Shashank and Saha, Avirup and Jain, Anannay},
+  booktitle={Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing: Industry Track},
+  pages={1890--1905},
+  year={2025}
+}
+```
 
 ---
 
