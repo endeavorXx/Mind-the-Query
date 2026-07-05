@@ -1,13 +1,3 @@
-# NL-Cypher Dataset Generation and Validation Framework
-
-A comprehensive framework for generating, validating, and consolidating natural language to Cypher query datasets using AI-powered question generation and multi-stage validation pipelines.
-
-## Updates 
-#### We release train-test splits for all datasets including Manually Validated Dataset and the one with Automated Validated Pipeline
-#### This Work has been accepted at EMNLP 2025 (Industry Track)
-#### Huggingface link
-[Huggingface](https://huggingface.co/datasets/endeavorXx/Mind-the-Query)
-
 If you use this dataset or the extraction pipeline, kindly cite the paper:
 ```
 @inproceedings{chauhan2025mind,
@@ -18,6 +8,21 @@ If you use this dataset or the extraction pipeline, kindly cite the paper:
   year={2025}
 }
 ```
+
+# NL-Cypher Dataset Generation and Validation Framework
+
+A comprehensive framework for generating, validating, and consolidating natural language to Cypher query datasets using AI-powered question generation and multi-stage validation pipelines.
+
+## ⭐ Updates
+
+⭐ We have released **train–test splits** for all datasets, including both the **Manually Validated Dataset** and the **Automated Validation Pipeline** dataset.
+
+⭐ Our work has been **accepted at EMNLP 2025 (Industry Track)**.
+
+⭐ 🤗 **Hugging Face:** 
+[Huggingface](https://huggingface.co/datasets/endeavorXx/Mind-the-Query)
+
+
 ## Overview
 
 This project provides an end-to-end solution for creating high-quality datasets that map natural language questions to Cypher queries for Neo4j graph databases. The framework includes automated question generation using Google's Gemini AI, rigorous validation through schema/runtime/value checks, and sophisticated data consolidation with deduplication.
